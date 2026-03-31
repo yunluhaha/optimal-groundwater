@@ -5,10 +5,11 @@ import math
 from PIL import Image
 
 # ====== 1. 核心计算函数 ======
-def calc_D_star(E0, SI, Sg, dc):
-    # 基础物理与农艺参数 (河套灌区基准)
-    Ky = 1.0; b = 7.1; theta = 0.23; rho_s = 1475.0
-    I = 0.3216; delta = 0.29; f = 0.5; EC_prime = 6.0
+# 将作物专属参数 Ky, b, EC_prime 作为变量传入
+def calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime):
+    # 基础物理与农田水利参数 (保持不变)
+    theta = 0.23; rho_s = 1475.0
+    I = 0.3216; delta = 0.29; f = 0.5
     alpha = 2.156; beta = 0.616; lam = 1.7256; mu = 1.3603
     eps = 0.5; omega = 0.405; q = 0.1; P = 0.0
 
@@ -49,6 +50,12 @@ t = {
     "desc": {
         "cn": "基于水文经济解析解公式构建，支持动态参数模拟与全球典型植被生态约束参考。",
         "en": "Built on a hydroeconomic closed-form solution, supporting dynamic parameter simulation and global ecological constraints reference."
+    },
+    "sidebar_crop_header": {"cn": "🌾 作物类型与参数", "en": "🌾 Crop Type & Parameters"},
+    "crop_label": {"cn": "选择代表性作物", "en": "Select Representative Crop"},
+    "crop_info": {
+        "cn": "**当前作物参数:**\n- 产量响应因子 Ky: `{Ky}`\n- 盐分减产斜率 b: `{b}` %/(dS/m)\n- 耐盐阈值 EC': `{EC}` dS/m",
+        "en": "**Current Crop Parameters:**\n- Yield response Ky: `{Ky}`\n- Salinity slope b: `{b}` %/(dS/m)\n- Salinity threshold EC': `{EC}` dS/m"
     },
     "sidebar_header1": {"cn": "🎛️ 驱动参数输入区", "en": "🎛️ Driving Parameters Input"},
     "E0_label": {"cn": "潜在蒸发量 E0 (m)", "en": "Potential Evaporation E0 (m)"},
@@ -118,13 +125,43 @@ t = {
 st.title(t["title"][lang])
 st.markdown(t["desc"][lang])
 
-# 渲染侧边栏
+# ====== 作物数据字典配置 ======
+crop_data = {
+    "wheat": {"Ky": 1.0, "b": 7.1, "EC_prime": 6.0},
+    "maize": {"Ky": 1.25, "b": 12.0, "EC_prime": 1.7},
+    "sunflower": {"Ky": 0.95, "b": 12.0, "EC_prime": 1.7}
+}
+
+crop_keys = ["wheat", "maize", "sunflower"]
+crop_display_names = {
+    "wheat": {"cn": "小麦 (Wheat)", "en": "Wheat"},
+    "maize": {"cn": "玉米 (Maize)", "en": "Maize"},
+    "sunflower": {"cn": "向日葵 (Sunflower)", "en": "Sunflower"}
+}
+
+# 渲染侧边栏 - 作物选择
+st.sidebar.markdown("---")
+st.sidebar.header(t["sidebar_crop_header"][lang])
+crop_options = [crop_display_names[k][lang] for k in crop_keys]
+selected_crop_str = st.sidebar.selectbox(t["crop_label"][lang], crop_options)
+
+# 匹配获取选中的作物参数
+selected_key = crop_keys[crop_options.index(selected_crop_str)]
+Ky = crop_data[selected_key]["Ky"]
+b = crop_data[selected_key]["b"]
+EC_prime = crop_data[selected_key]["EC_prime"]
+
+# 在UI展示选定作物的参数
+st.sidebar.info(t["crop_info"][lang].format(Ky=Ky, b=b, EC=EC_prime))
+
+# 渲染侧边栏 - 水文驱动参数
 st.sidebar.markdown("---")
 st.sidebar.header(t["sidebar_header1"][lang])
 E0 = st.sidebar.slider(t["E0_label"][lang], min_value=1.00, max_value=2.50, value=1.237, step=0.01)
 SI = st.sidebar.slider(t["SI_label"][lang], min_value=100, max_value=3000, value=586, step=10)
 Sg = st.sidebar.slider(t["Sg_label"][lang], min_value=1000, max_value=8000, value=4000, step=50)
 
+# 渲染侧边栏 - 生态约束
 st.sidebar.markdown("---")
 st.sidebar.header(t["sidebar_header2"][lang])
 hv = st.sidebar.slider(t["hv_label"][lang], min_value=0.1, max_value=10.0, value=1.8, step=0.1)
@@ -133,7 +170,7 @@ Dp = 1.48
 dc = hv + Dp
 st.sidebar.info(t["dc_info"][lang].format(dc=dc))
 
-# 渲染参考文献模块
+# 渲染侧边栏 - 参考文献模块
 with st.sidebar.expander(t["expander_title"][lang], expanded=False):
     st.markdown(t["guide_md"][lang])
     
@@ -147,7 +184,8 @@ with st.sidebar.expander(t["expander_title"][lang], expanded=False):
     st.markdown(t["guide_implication"][lang])
 
 # ====== 3. 实时计算与核心结果显示 ======
-D_unc, D_opt = calc_D_star(E0, SI, Sg, dc)
+# 传入动态捕获的作物参数
+D_unc, D_opt = calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime)
 
 st.subheader(t["res_header"][lang])
 if D_opt is not None:
@@ -167,13 +205,15 @@ col_chart1, col_chart2 = st.columns(2)
 with col_chart1:
     st.markdown(t["chart1_title"][lang])
     sg_arr = np.linspace(1000, 8000, 100)
-    d_sg = [calc_D_star(E0, SI, sg, dc)[1] for sg in sg_arr]
+    # 将动态获取的作物参数也传入图表计算循环中
+    d_sg = [calc_D_star(E0, SI, sg, dc, Ky, b, EC_prime)[1] for sg in sg_arr]
     df_sg = pd.DataFrame({"Sg (mg/L)": sg_arr, "D* (m)": d_sg}).set_index("Sg (mg/L)")
     st.line_chart(df_sg)
 
 with col_chart2:
     st.markdown(t["chart2_title"][lang])
     e0_arr = np.linspace(1.0, 2.5, 100)
-    d_e0 = [calc_D_star(e, SI, Sg, dc)[1] for e in e0_arr]
+    # 将动态获取的作物参数也传入图表计算循环中
+    d_e0 = [calc_D_star(e, SI, Sg, dc, Ky, b, EC_prime)[1] for e in e0_arr]
     df_e0 = pd.DataFrame({"E0 (m)": e0_arr, "D* (m)": d_e0}).set_index("E0 (m)")
     st.line_chart(df_e0)

@@ -235,7 +235,7 @@ t = {
     "sel_label":{"cn": "选择灌区", "en": "Select Region"},
     "sel_custom":{"cn":"— 自定义（不使用预设）","en":"— Custom (no preset)"},
     "apply_btn":{"cn": "✅ 应用该灌区参数到计算器", "en": "✅ Apply Region Parameters to Calculator"},
-    "apply_ok": {"cn": "✅ 已应用参数，切换到「计算结果」标签查看结果。", "en": "✅ Parameters applied. Switch to "Results & Analysis" tab."},
+    "apply_ok": {"cn": "✅ 已应用参数，切换到「计算结果」标签查看结果。", "en": "✅ Parameters applied. Switch to the Results & Analysis tab."},
     "region_params_cn": ["参数", "范围", "本次默认值"],
     "region_params_en": ["Parameter", "Range", "Default"],
     "sidebar_crop_header": {"cn": "🌾 作物类型", "en": "🌾 Crop Type"},

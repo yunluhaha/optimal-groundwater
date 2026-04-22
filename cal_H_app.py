@@ -303,6 +303,16 @@ st.markdown("""
     display: flex; align-items: center; gap: 0.4rem;
 }
 
+/* ── Primary button ─────────────────────────────── */
+.stButton > button[kind="primary"] {
+    background: #9abfc8 !important;
+    border: none !important;
+    color: #1a2e36 !important;
+}
+.stButton > button[kind="primary"]:hover {
+    background: #7aaab8 !important;
+}
+
 #MainMenu {visibility:hidden;}
 footer {visibility:hidden;}
 </style>

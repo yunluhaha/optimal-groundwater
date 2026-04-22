@@ -41,242 +41,114 @@ st.set_page_config(
 # ====== 3. 全局 CSS 样式 ======
 st.markdown("""
 <style>
-/* ---- 全局字体与背景 ---- */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
-}
-
-/* ---- 主背景 ---- */
+/* ---- 主背景：纯白，不与 Streamlit 默认文字色冲突 ---- */
 .stApp {
-    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 50%, #f0faf5 100%);
+    background-color: #f5f7fa;
 }
 
 /* ---- Hero 标题区 ---- */
 .hero-container {
-    background: linear-gradient(135deg, #0a3d62 0%, #1a6b8a 40%, #1e8449 100%);
-    border-radius: 16px;
-    padding: 2.5rem 3rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 8px 32px rgba(10, 61, 98, 0.25);
-    position: relative;
-    overflow: hidden;
-}
-.hero-container::before {
-    content: '';
-    position: absolute;
-    top: -50%; right: -20%;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-    border-radius: 50%;
-}
-.hero-title {
-    color: #ffffff;
-    font-size: 1.85rem;
-    font-weight: 700;
-    margin: 0 0 0.6rem 0;
-    letter-spacing: -0.5px;
-    line-height: 1.3;
-}
-.hero-subtitle {
-    color: rgba(255,255,255,0.82);
-    font-size: 0.95rem;
-    font-weight: 300;
-    margin: 0;
-    line-height: 1.6;
+    background: linear-gradient(120deg, #1565c0 0%, #1976d2 55%, #0288d1 100%);
+    border-radius: 14px;
+    padding: 2.2rem 2.8rem;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 4px 24px rgba(21, 101, 192, 0.22);
 }
 .hero-badge {
     display: inline-block;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 3px 10px;
+    background: rgba(255,255,255,0.22);
+    border: 1px solid rgba(255,255,255,0.38);
+    color: #e3f2fd;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 12px;
     border-radius: 20px;
-    margin-bottom: 0.8rem;
-    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
 }
+.hero-title {
+    color: #ffffff;
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+.hero-subtitle {
+    color: #bbdefb;
+    font-size: 0.92rem;
+    margin: 0;
+    line-height: 1.6;
+}
 
-/* ---- 指标卡片 ---- */
+/* ---- 指标卡片：白底 + 彩色左边框，确保文字在白底上清晰可见 ---- */
 .metric-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.2rem;
-    margin: 1.2rem 0;
+    gap: 1rem;
+    margin: 1rem 0 0.5rem 0;
 }
 .metric-card {
-    background: white;
-    border-radius: 14px;
-    padding: 1.5rem 1.6rem;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-    border-left: 5px solid #1a6b8a;
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.3rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border-left: 5px solid #1976d2;
 }
-.metric-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-}
-.metric-card.primary {
-    border-left-color: #0a3d62;
-    background: linear-gradient(135deg, #0a3d62 0%, #1a6b8a 100%);
-    color: white;
-}
-.metric-card.success {
-    border-left-color: #1e8449;
-}
-.metric-card.warning {
-    border-left-color: #f39c12;
-}
-.metric-card.triggered {
-    border-left-color: #e74c3c;
-}
-.metric-icon {
-    font-size: 1.6rem;
-    margin-bottom: 0.4rem;
-    display: block;
-}
+.metric-card.success { border-left-color: #2e7d32; }
+.metric-card.warning { border-left-color: #e65100; }
+.metric-card.danger  { border-left-color: #c62828; }
+.metric-icon  { font-size: 1.4rem; margin-bottom: 0.3rem; display: block; }
 .metric-label {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: #6c757d;
+    font-size: 0.73rem;
+    font-weight: 600;
+    color: #546e7a;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.7px;
     margin-bottom: 0.3rem;
 }
-.metric-card.primary .metric-label {
-    color: rgba(255,255,255,0.75);
-}
 .metric-value {
-    font-size: 2.1rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: #0a3d62;
+    color: #1565c0;
     line-height: 1;
 }
-.metric-card.primary .metric-value {
-    color: white;
-}
+.metric-card.success .metric-value { color: #2e7d32; }
+.metric-card.warning .metric-value { color: #e65100; }
+.metric-card.danger  .metric-value { color: #c62828; }
 .metric-status {
     display: inline-block;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    padding: 3px 10px;
+    padding: 2px 10px;
     border-radius: 20px;
-    margin-top: 0.5rem;
+    margin-top: 0.45rem;
+    background: #e3f2fd;
+    color: #1565c0;
 }
-.status-triggered {
-    background: #fdecea;
-    color: #c0392b;
-}
-.status-ok {
-    background: #eafaf1;
-    color: #1e8449;
-}
-.metric-card.primary .metric-status {
-    background: rgba(255,255,255,0.2);
-    color: white;
+.metric-card.danger .metric-status {
+    background: #ffebee;
+    color: #c62828;
 }
 
-/* ---- Section 标题 ---- */
+/* ---- Section 分隔标题 ---- */
 .section-header {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin: 2rem 0 1rem 0;
-    padding-bottom: 0.6rem;
-    border-bottom: 2px solid #e3eaf2;
-}
-.section-header h3 {
-    color: #0a3d62;
-    font-size: 1.1rem;
+    margin: 1.8rem 0 0.8rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e0e7ef;
+    color: #1565c0;
+    font-size: 1.05rem;
     font-weight: 600;
-    margin: 0;
-}
-
-/* ---- 公式卡片 ---- */
-.formula-card {
-    background: #f8fbff;
-    border: 1px solid #d0e4f0;
-    border-radius: 12px;
-    padding: 1.2rem 1.5rem;
-    margin: 1rem 0;
-    font-family: 'Courier New', monospace;
-    color: #2c3e50;
-    font-size: 0.88rem;
-    line-height: 1.8;
-}
-
-/* ---- 侧边栏样式 ---- */
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0a3d62 0%, #1a6b8a 100%);
-}
-[data-testid="stSidebar"] * {
-    color: white !important;
-}
-[data-testid="stSidebar"] .stSelectbox label,
-[data-testid="stSidebar"] .stSlider label {
-    color: rgba(255,255,255,0.9) !important;
-    font-size: 0.85rem !important;
-    font-weight: 500 !important;
-}
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
-    color: rgba(255,255,255,0.85) !important;
-}
-[data-testid="stSidebar"] .stInfo {
-    background: rgba(255,255,255,0.12) !important;
-    border: 1px solid rgba(255,255,255,0.2) !important;
-    border-radius: 10px !important;
-}
-[data-testid="stSidebar"] hr {
-    border-color: rgba(255,255,255,0.2) !important;
-}
-
-/* ---- 标签页 ---- */
-.stTabs [data-baseweb="tab-list"] {
-    background: white;
-    border-radius: 10px 10px 0 0;
-    padding: 0.3rem;
-    gap: 0.2rem;
-    border-bottom: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-.stTabs [data-baseweb="tab"] {
-    border-radius: 8px;
-    color: #6c757d;
-    font-weight: 500;
-    font-size: 0.88rem;
-}
-.stTabs [aria-selected="true"] {
-    background: #0a3d62 !important;
-    color: white !important;
 }
 
 /* ---- 错误提示 ---- */
 .error-card {
-    background: #fdecea;
-    border: 1px solid #f5c6cb;
-    border-left: 5px solid #e74c3c;
+    background: #ffebee;
+    border-left: 5px solid #c62828;
     border-radius: 10px;
     padding: 1rem 1.4rem;
-    color: #721c24;
+    color: #b71c1c;
     font-weight: 500;
-}
-
-/* ---- 参数说明小标签 ---- */
-.param-chip {
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 6px;
-    padding: 2px 8px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    margin: 2px 2px;
-    color: #e8f4ff;
 }
 
 /* ---- 隐藏 Streamlit 默认元素 ---- */
@@ -437,13 +309,12 @@ st.markdown(f"""
 
 # ====== 10. 结果指标卡 ======
 _sec_res = "📊 " + t["res_header"][lang]
-st.markdown(f"""<div class="section-header"><h3>{_sec_res}</h3></div>""", unsafe_allow_html=True)
+st.markdown(f'<div class="section-header">{_sec_res}</div>', unsafe_allow_html=True)
 
 if D_opt is not None:
     triggered = (D_opt == dc)
     status_label = t["status_trigger"][lang] if triggered else t["status_unconstrained"][lang]
-    status_cls = "status-triggered" if triggered else "status-ok"
-    card1_cls = "metric-card primary triggered" if triggered else "metric-card primary"
+    card1_cls = "metric-card danger" if triggered else "metric-card"
 
     st.markdown(f"""
     <div class="metric-grid">
@@ -451,17 +322,17 @@ if D_opt is not None:
         <span class="metric-icon">🎯</span>
         <div class="metric-label">{t['metric_D_opt'][lang]}</div>
         <div class="metric-value">{D_opt:.2f} m</div>
-        <span class="metric-status {status_cls}">{status_label}</span>
+        <span class="metric-status">{status_label}</span>
       </div>
       <div class="metric-card success">
         <span class="metric-icon">📐</span>
         <div class="metric-label">{t['metric_D_unc'][lang]}</div>
-        <div class="metric-value" style="color:#1e8449">{D_unc:.2f} m</div>
+        <div class="metric-value">{D_unc:.2f} m</div>
       </div>
       <div class="metric-card warning">
         <span class="metric-icon">🌿</span>
         <div class="metric-label">{t['metric_dc'][lang]}</div>
-        <div class="metric-value" style="color:#f39c12">{dc:.2f} m</div>
+        <div class="metric-value">{dc:.2f} m</div>
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -520,7 +391,7 @@ with st.expander(("📐 " + t["formula_header"][lang]) + " — " + t["formula_ca
 # ====== 12. 敏感性分析（标签页） ======
 st.markdown("---")
 _sec_sens = "📈 " + t["sens_header"][lang]
-st.markdown(f"""<div class="section-header"><h3>{_sec_sens}</h3></div>""", unsafe_allow_html=True)
+st.markdown(f'<div class="section-header">{_sec_sens}</div>', unsafe_allow_html=True)
 
 tab_sg, tab_e0, tab_si = st.tabs([
     t["tab_sg"][lang], t["tab_e0"][lang], t["tab_si"][lang]

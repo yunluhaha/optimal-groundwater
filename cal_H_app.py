@@ -774,7 +774,7 @@ with main_tab2:
 st.markdown("---")
 st.markdown("""
 <div style="text-align:center; padding:0.6rem 0 1rem; color:#7a6a58; font-size:0.82rem;">
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fyunluhaha%2Foptimal-groundwater&count_bg=%239abfc8&title_bg=%232d2a24&icon=water&icon_color=%23ffffff&title=%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0&edge_flat=true"
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=yunluhaha.optimal-groundwater&left_color=%232d2a24&right_color=%239abfc8&left_text=%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0"
        alt="访问人数" style="height:22px; vertical-align:middle; border-radius:4px;"/>
 </div>
 """, unsafe_allow_html=True)

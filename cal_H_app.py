@@ -178,7 +178,7 @@ st.markdown("""
 
 /* ── Sidebar ────────────────────────────────────── */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #7aaab8 0%, #6899a8 60%, #5c8898 100%) !important;
+    background: linear-gradient(180deg, #c8d4d8 0%, #b8c8ce 60%, #a8bcc4 100%) !important;
 }
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] .stSlider label,
@@ -213,10 +213,10 @@ st.markdown("""
 
 /* ── Hero ───────────────────────────────────────── */
 .hero-container {
-    background: linear-gradient(135deg, #7aaab8 0%, #6899a8 55%, #5c8898 100%);
+    background: linear-gradient(135deg, #c8d4d8 0%, #b8c8ce 55%, #a8bcc4 100%);
     border-radius: 14px; padding: 1.5rem 2.2rem;
     margin-bottom: 1.4rem;
-    box-shadow: 0 6px 28px rgba(92,136,152,0.35);
+    box-shadow: 0 6px 28px rgba(168,188,196,0.40);
     display: flex; align-items: center; gap: 1.8rem;
     border-left: 4px solid #ffffff;
 }

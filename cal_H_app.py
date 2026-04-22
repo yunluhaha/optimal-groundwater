@@ -224,7 +224,7 @@ st.markdown("""
 .hero-content { flex: 1; min-width: 0; }
 .hero-badge { display: none; }
 .hero-title {
-    color: #0f1e24; font-size: 0.88rem; font-weight: 700;
+    color: #0f1e24; font-size: 0.78rem; font-weight: 700;
     margin: 0 0 0.08rem; line-height: 1.3;
 }
 .hero-subtitle { color: #1a3040; font-size: 0.73rem; margin: 0; line-height: 1.4; }

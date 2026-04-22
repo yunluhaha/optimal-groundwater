@@ -41,9 +41,26 @@ st.set_page_config(
 # ====== 3. 全局 CSS 样式 ======
 st.markdown("""
 <style>
-/* ---- 主背景：纯白，不与 Streamlit 默认文字色冲突 ---- */
+/* ---- 主背景 + 强制文字色，防止 dark mode 下白字白底 ---- */
 .stApp {
-    background-color: #f5f7fa;
+    background-color: #f5f7fa !important;
+    color: #1e293b !important;
+}
+.main .block-container {
+    color: #1e293b !important;
+}
+p, span, li, label, div {
+    color: inherit;
+}
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li,
+[data-testid="stMarkdownContainer"] h1,
+[data-testid="stMarkdownContainer"] h2,
+[data-testid="stMarkdownContainer"] h3 {
+    color: #1e293b !important;
+}
+.stSelectbox label, .stSlider label, .stRadio label {
+    color: #1e293b !important;
 }
 
 /* ---- Hero 标题区 ---- */

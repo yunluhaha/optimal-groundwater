@@ -387,8 +387,6 @@ crop_display_names = {
 }
 
 # ====== 8. 侧边栏 ======
-st.sidebar.markdown("<div style='padding:0.6rem 0 0.2rem'><b style='font-size:1.05rem'>💧 GW Depth Calc</b></div>", unsafe_allow_html=True)
-st.sidebar.markdown("---")
 lang_choice = st.sidebar.radio("Language / 语言", ["中文", "English"])
 lang = "cn" if lang_choice == "中文" else "en"
 

@@ -220,11 +220,11 @@ st.markdown("""
     display: flex; align-items: center; gap: 0.25rem;
     border-left: 1px solid #ffffff;
 }
-.hero-icon { font-size: 0.42rem; line-height: 1; flex-shrink: 0; }
+.hero-icon { display: none; }
 .hero-content { flex: 1; min-width: 0; }
 .hero-badge { display: none; }
 .hero-title {
-    color: #0f1e24; font-size: 0.2rem; font-weight: 700;
+    color: #0f1e24; font-size: 2rem; font-weight: 700;
     margin: 0; line-height: 1.3;
 }
 .hero-subtitle { color: #1a3040; font-size: 0.32rem; margin: 0; line-height: 1.35; }
@@ -447,7 +447,7 @@ st.markdown(f"""
   <div class="hero-icon">💧</div>
   <div class="hero-content">
     <div class="hero-badge">🔬 {t['badge'][lang]}</div>
-    <h1 class="hero-title">{t['title'][lang]}</h1>
+    <div class="hero-title">{t['title'][lang]}</div>
     <p class="hero-subtitle">{t['desc'][lang]}</p>
   </div>
 </div>

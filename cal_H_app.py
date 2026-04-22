@@ -214,26 +214,26 @@ st.markdown("""
 /* ── Hero ───────────────────────────────────────── */
 .hero-container {
     background: linear-gradient(135deg, #c8d4d8 0%, #b8c8ce 55%, #a8bcc4 100%);
-    border-radius: 14px; padding: 1.5rem 2.2rem;
-    margin-bottom: 1.4rem;
-    box-shadow: 0 6px 28px rgba(168,188,196,0.40);
-    display: flex; align-items: center; gap: 1.8rem;
-    border-left: 4px solid #ffffff;
+    border-radius: 10px; padding: 0.75rem 1.4rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 3px 14px rgba(168,188,196,0.35);
+    display: flex; align-items: center; gap: 1rem;
+    border-left: 3px solid #ffffff;
 }
-.hero-icon { font-size: 2.8rem; line-height: 1; flex-shrink: 0; }
+.hero-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
 .hero-content { flex: 1; min-width: 0; }
 .hero-badge {
     display: inline-block;
     background: rgba(255,255,255,0.28); border: 1px solid rgba(255,255,255,0.55);
-    color: #0f1e24; font-size: 0.68rem; font-weight: 700;
-    padding: 2px 10px; border-radius: 20px; margin-bottom: 0.5rem;
+    color: #0f1e24; font-size: 0.62rem; font-weight: 700;
+    padding: 1px 8px; border-radius: 20px; margin-bottom: 0.25rem;
     letter-spacing: 1px; text-transform: uppercase;
 }
 .hero-title {
-    color: #0f1e24; font-size: 1.15rem; font-weight: 700;
-    margin: 0 0 0.35rem; line-height: 1.4;
+    color: #0f1e24; font-size: 0.97rem; font-weight: 700;
+    margin: 0 0 0.15rem; line-height: 1.35;
 }
-.hero-subtitle { color: #1a3040; font-size: 0.83rem; margin: 0; line-height: 1.55; }
+.hero-subtitle { color: #1a3040; font-size: 0.78rem; margin: 0; line-height: 1.45; }
 
 /* ── Section header ─────────────────────────────── */
 .section-header {

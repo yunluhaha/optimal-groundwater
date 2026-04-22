@@ -484,8 +484,7 @@ def map_tab_fragment(lang):
     fig_map = go.Figure(go.Scattergeo(
         lat=lats, lon=lons,
         text=names,
-        hovertext=hover_texts,
-        hoverinfo="text",
+        hoverinfo="none",
         mode="markers",
         marker=dict(
             size=marker_sizes,
@@ -499,11 +498,6 @@ def map_tab_fragment(lang):
     fig_map.update_layout(
         height=400, margin=dict(l=0, r=0, t=0, b=0),
         paper_bgcolor="rgba(0,0,0,0)",
-        hoverlabel=dict(
-            bgcolor="rgba(245,240,232,0.35)",
-            bordercolor="rgba(168,188,196,0.4)",
-            font=dict(size=11, color="#2d2a24"),
-        ),
         geo=dict(
             showland=True, landcolor="#e8dcc8",
             showocean=True, oceancolor="#c8d4d8",

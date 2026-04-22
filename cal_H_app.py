@@ -500,8 +500,8 @@ with main_tab1:
     )
 
     # 处理点击 → 选中灌区（不立即应用参数）
-    if map_event and map_event.selection and map_event.selection.points:
-        clicked_idx = map_event.selection.points[0].point_index
+    if map_event and map_event.selection and map_event.selection.point_indices:
+        clicked_idx = map_event.selection.point_indices[0]
         if 0 <= clicked_idx < len(REGION_KEYS):
             st.session_state.sel_region = REGION_KEYS[clicked_idx]
 

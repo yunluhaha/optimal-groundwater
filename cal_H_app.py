@@ -769,3 +769,12 @@ with main_tab2:
             "SI (mg/L)", dc, SI, D_opt,
         )
         st.plotly_chart(fig, use_container_width=True)
+
+# ====== 页脚访问计数 ======
+st.markdown("---")
+st.markdown("""
+<div style="text-align:center; padding:0.6rem 0 1rem; color:#7a6a58; font-size:0.82rem;">
+  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fyunluhaha%2Foptimal-groundwater&count_bg=%239abfc8&title_bg=%232d2a24&icon=water&icon_color=%23ffffff&title=%E8%AE%BF%E9%97%AE%E4%BA%BA%E6%95%B0&edge_flat=true"
+       alt="访问人数" style="height:22px; vertical-align:middle; border-radius:4px;"/>
+</div>
+""", unsafe_allow_html=True)

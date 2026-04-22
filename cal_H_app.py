@@ -210,9 +210,8 @@ st.markdown("""
     letter-spacing: 1px; text-transform: uppercase;
 }
 .hero-title {
-    color: #fff; font-size: 1.25rem; font-weight: 700;
-    margin: 0 0 0.35rem; line-height: 1.4; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis;
+    color: #fff; font-size: 1.15rem; font-weight: 700;
+    margin: 0 0 0.35rem; line-height: 1.4;
 }
 .hero-subtitle { color: #bfdbfe; font-size: 0.83rem; margin: 0; line-height: 1.55; }
 
@@ -292,10 +291,9 @@ st.markdown("""
 
 #MainMenu {visibility:hidden;}
 footer {visibility:hidden;}
-header {visibility:hidden;}
-/* 恢复侧边栏折叠/展开按钮 */
-[data-testid="stSidebarCollapsedControl"] {visibility:visible !important;}
-[data-testid="collapsedControl"] {visibility:visible !important;}
+/* 隐藏 header 内的 deploy 按钮，但保留侧边栏折叠按钮 */
+header [data-testid="stToolbar"] {visibility:hidden;}
+header [data-testid="stDecoration"] {display:none;}
 </style>
 """, unsafe_allow_html=True)
 

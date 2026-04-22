@@ -159,16 +159,23 @@ st.markdown("""
 [data-testid="stSidebar"] {
     background: linear-gradient(180deg, #1e3a5f 0%, #1565c0 100%) !important;
 }
-[data-testid="stSidebar"] * { color: #e8f1fc !important; }
+/* 只改标签和文本，不动 widget 内部 */
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] .stSlider label,
-[data-testid="stSidebar"] .stRadio label  { color: #c7dff7 !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] .stRadio label  { color: #dbeafe !important; font-size: 0.8rem !important; }
 [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2,
 [data-testid="stSidebar"] h3 { color: #ffffff !important; font-size: 0.95rem !important; letter-spacing: 0.2px; }
-[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.15) !important; }
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p { color: #c7dff7 !important; font-size: 0.8rem !important; }
-[data-testid="stSidebar"] .stInfo  { background: rgba(255,255,255,0.1) !important; border: 1px solid rgba(255,255,255,0.18) !important; border-radius: 8px !important; }
+[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.2) !important; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] li,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong { color: #dbeafe !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] .stRadio [data-testid="stMarkdownContainer"] p { color: #dbeafe !important; }
+[data-testid="stSidebar"] .stInfo  { background: rgba(255,255,255,0.12) !important; border: 1px solid rgba(255,255,255,0.2) !important; border-radius: 8px !important; }
+[data-testid="stSidebar"] .stInfo p { color: #dbeafe !important; }
 [data-testid="stSidebar"] .stExpander { background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.15) !important; border-radius: 8px !important; }
+/* selectbox 控件本身保留白底黑字，不被覆盖 */
+[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] { background: rgba(255,255,255,0.92) !important; border-radius: 6px !important; }
+[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] * { color: #1e293b !important; }
 
 /* ── Tabs ───────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {
@@ -306,8 +313,8 @@ t = {
     "region_params_en": ["Parameter", "Range", "Default"],
     "sidebar_crop_header": {"cn": "🌾 作物类型", "en": "🌾 Crop Type"},
     "crop_label": {"cn": "选择代表性作物", "en": "Select Representative Crop"},
-    "crop_info": {"cn": "**Ky** = `{Ky}` · **b** = `{b}` %/(dS/m) · **EC'** = `{EC}` dS/m",
-                  "en": "**Ky** = `{Ky}` · **b** = `{b}` %/(dS/m) · **EC'** = `{EC}` dS/m"},
+    "crop_info": {"cn": "Ky = **{Ky}** · b = **{b}** · EC' = **{EC}** dS/m",
+                  "en": "Ky = **{Ky}** · b = **{b}** · EC' = **{EC}** dS/m"},
     "sidebar_header1": {"cn": "🎛️ 水文驱动参数", "en": "🎛️ Hydrological Parameters"},
     "E0_label": {"cn": "潜在蒸发量 E₀ (m/yr)", "en": "Potential Evaporation E₀ (m/yr)"},
     "SI_label": {"cn": "灌溉水矿化度 SI (mg/L)", "en": "Irrigation Water Salinity SI (mg/L)"},

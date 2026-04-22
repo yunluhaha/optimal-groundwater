@@ -137,7 +137,7 @@ REGION_KEYS = list(REGIONS.keys())
 _defaults = {
     "E0_s": 1.237, "SI_s": 586, "Sg_s": 4000, "hv_s": 1.8,
     "I_s": 0.3216, "mu_s": 1.3603,
-    "crop_sel": "sunflower", "sel_region": None, "_do_apply": False,
+    "crop_sel": "wheat", "sel_region": None, "_do_apply": False,
 }
 for k, v in _defaults.items():
     if k not in st.session_state:

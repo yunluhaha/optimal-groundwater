@@ -178,23 +178,23 @@ st.markdown("""
 
 /* ── Sidebar ────────────────────────────────────── */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #2d2a24 0%, #3d3020 60%, #2a2018 100%) !important;
+    background: linear-gradient(180deg, #7aaab8 0%, #6899a8 60%, #5c8898 100%) !important;
 }
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] .stSlider label,
-[data-testid="stSidebar"] .stRadio label  { color: #e8d8b8 !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] .stRadio label  { color: #1a2e36 !important; font-size: 0.8rem !important; }
 [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 { color: #f0e0c0 !important; font-size: 0.95rem !important; letter-spacing: 0.2px; }
-[data-testid="stSidebar"] hr { border-color: rgba(196,152,74,0.35) !important; }
+[data-testid="stSidebar"] h3 { color: #0f1e24 !important; font-size: 0.95rem !important; letter-spacing: 0.2px; }
+[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.40) !important; }
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] li,
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong { color: #e8d8b8 !important; font-size: 0.8rem !important; }
-[data-testid="stSidebar"] .stRadio [data-testid="stMarkdownContainer"] p { color: #e8d8b8 !important; }
-[data-testid="stSidebar"] .stInfo  { background: rgba(196,152,74,0.15) !important; border: 1px solid rgba(196,152,74,0.3) !important; border-radius: 8px !important; }
-[data-testid="stSidebar"] .stInfo p { color: #e8d8b8 !important; }
-[data-testid="stSidebar"] .stExpander { background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(196,152,74,0.2) !important; border-radius: 8px !important; }
-[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] { background: rgba(245,240,232,0.95) !important; border-radius: 6px !important; }
-[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] * { color: #2d2a24 !important; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong { color: #1a2e36 !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] .stRadio [data-testid="stMarkdownContainer"] p { color: #1a2e36 !important; }
+[data-testid="stSidebar"] .stInfo  { background: rgba(255,255,255,0.25) !important; border: 1px solid rgba(255,255,255,0.45) !important; border-radius: 8px !important; }
+[data-testid="stSidebar"] .stInfo p { color: #0f1e24 !important; }
+[data-testid="stSidebar"] .stExpander { background: rgba(255,255,255,0.15) !important; border: 1px solid rgba(255,255,255,0.30) !important; border-radius: 8px !important; }
+[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] { background: rgba(255,255,255,0.90) !important; border-radius: 6px !important; }
+[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] * { color: #1a2e36 !important; }
 
 /* ── Tabs ───────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {
@@ -213,27 +213,27 @@ st.markdown("""
 
 /* ── Hero ───────────────────────────────────────── */
 .hero-container {
-    background: linear-gradient(135deg, #2d2a24 0%, #4a3828 55%, #5c4a30 100%);
+    background: linear-gradient(135deg, #7aaab8 0%, #6899a8 55%, #5c8898 100%);
     border-radius: 14px; padding: 1.5rem 2.2rem;
     margin-bottom: 1.4rem;
-    box-shadow: 0 6px 28px rgba(45,42,36,0.30);
+    box-shadow: 0 6px 28px rgba(92,136,152,0.35);
     display: flex; align-items: center; gap: 1.8rem;
-    border-left: 4px solid #c4984a;
+    border-left: 4px solid #ffffff;
 }
 .hero-icon { font-size: 2.8rem; line-height: 1; flex-shrink: 0; }
 .hero-content { flex: 1; min-width: 0; }
 .hero-badge {
     display: inline-block;
-    background: rgba(196,152,74,0.22); border: 1px solid rgba(196,152,74,0.50);
-    color: #e8c880; font-size: 0.68rem; font-weight: 700;
+    background: rgba(255,255,255,0.28); border: 1px solid rgba(255,255,255,0.55);
+    color: #0f1e24; font-size: 0.68rem; font-weight: 700;
     padding: 2px 10px; border-radius: 20px; margin-bottom: 0.5rem;
     letter-spacing: 1px; text-transform: uppercase;
 }
 .hero-title {
-    color: #f5f0e8; font-size: 1.15rem; font-weight: 700;
+    color: #0f1e24; font-size: 1.15rem; font-weight: 700;
     margin: 0 0 0.35rem; line-height: 1.4;
 }
-.hero-subtitle { color: #c8b898; font-size: 0.83rem; margin: 0; line-height: 1.55; }
+.hero-subtitle { color: #1a3040; font-size: 0.83rem; margin: 0; line-height: 1.55; }
 
 /* ── Section header ─────────────────────────────── */
 .section-header {

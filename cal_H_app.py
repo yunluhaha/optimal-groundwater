@@ -163,149 +163,149 @@ st.set_page_config(
 )
 
 # ====== 5. CSS ======
+# 配色：深炭灰#2d2a24 · 沙尘蓝灰#5c8a96 · 赤陶棕#b87840 · 深朱红#a8212e · 琥珀金#c4984a · 暖羊皮纸#f5f0e8
 st.markdown("""
 <style>
 /* ── Base ───────────────────────────────────────── */
-.stApp { background-color: #f0f4f8 !important; color: #1e293b !important; }
-.main .block-container { color: #1e293b !important; padding-top: 1rem !important; }
+.stApp { background-color: #f5f0e8 !important; color: #2d2a24 !important; }
+.main .block-container { color: #2d2a24 !important; padding-top: 1rem !important; }
 [data-testid="stMarkdownContainer"] p,
-[data-testid="stMarkdownContainer"] li  { color: #1e293b !important; font-size: 0.88rem; }
+[data-testid="stMarkdownContainer"] li  { color: #3d3530 !important; font-size: 0.88rem; }
 [data-testid="stMarkdownContainer"] h1,
 [data-testid="stMarkdownContainer"] h2,
-[data-testid="stMarkdownContainer"] h3  { color: #1e293b !important; }
-.stSelectbox label, .stSlider label, .stRadio label { color: #334155 !important; font-size: 0.82rem !important; }
+[data-testid="stMarkdownContainer"] h3  { color: #2d2a24 !important; }
+.stSelectbox label, .stSlider label, .stRadio label { color: #4a3f34 !important; font-size: 0.82rem !important; }
 
 /* ── Sidebar ────────────────────────────────────── */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #1e3a5f 0%, #1565c0 100%) !important;
+    background: linear-gradient(180deg, #2d2a24 0%, #3d3020 60%, #2a2018 100%) !important;
 }
-/* 只改标签和文本，不动 widget 内部 */
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] .stSlider label,
-[data-testid="stSidebar"] .stRadio label  { color: #dbeafe !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] .stRadio label  { color: #e8d8b8 !important; font-size: 0.8rem !important; }
 [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 { color: #ffffff !important; font-size: 0.95rem !important; letter-spacing: 0.2px; }
-[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.2) !important; }
+[data-testid="stSidebar"] h3 { color: #f0e0c0 !important; font-size: 0.95rem !important; letter-spacing: 0.2px; }
+[data-testid="stSidebar"] hr { border-color: rgba(196,152,74,0.35) !important; }
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] li,
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong { color: #dbeafe !important; font-size: 0.8rem !important; }
-[data-testid="stSidebar"] .stRadio [data-testid="stMarkdownContainer"] p { color: #dbeafe !important; }
-[data-testid="stSidebar"] .stInfo  { background: rgba(255,255,255,0.12) !important; border: 1px solid rgba(255,255,255,0.2) !important; border-radius: 8px !important; }
-[data-testid="stSidebar"] .stInfo p { color: #dbeafe !important; }
-[data-testid="stSidebar"] .stExpander { background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.15) !important; border-radius: 8px !important; }
-/* selectbox 控件本身保留白底黑字，不被覆盖 */
-[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] { background: rgba(255,255,255,0.92) !important; border-radius: 6px !important; }
-[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] * { color: #1e293b !important; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong { color: #e8d8b8 !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] .stRadio [data-testid="stMarkdownContainer"] p { color: #e8d8b8 !important; }
+[data-testid="stSidebar"] .stInfo  { background: rgba(196,152,74,0.15) !important; border: 1px solid rgba(196,152,74,0.3) !important; border-radius: 8px !important; }
+[data-testid="stSidebar"] .stInfo p { color: #e8d8b8 !important; }
+[data-testid="stSidebar"] .stExpander { background: rgba(255,255,255,0.06) !important; border: 1px solid rgba(196,152,74,0.2) !important; border-radius: 8px !important; }
+[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] { background: rgba(245,240,232,0.95) !important; border-radius: 6px !important; }
+[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] * { color: #2d2a24 !important; }
 
 /* ── Tabs ───────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {
-    background: #ffffff; border-radius: 10px;
+    background: #faf7f0; border-radius: 10px;
     padding: 4px 6px; gap: 4px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 1px 4px rgba(45,42,36,0.10);
 }
 .stTabs [data-baseweb="tab"] {
     border-radius: 7px; padding: 6px 18px;
-    font-size: 0.85rem; font-weight: 500; color: #64748b;
+    font-size: 0.85rem; font-weight: 500; color: #7a6a58;
 }
 .stTabs [aria-selected="true"] {
-    background: #1565c0 !important; color: #ffffff !important;
-    box-shadow: 0 2px 8px rgba(21,101,192,0.35);
+    background: #5c8a96 !important; color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(92,138,150,0.40);
 }
 
 /* ── Hero ───────────────────────────────────────── */
 .hero-container {
-    background: linear-gradient(135deg, #0d47a1 0%, #1976d2 60%, #0288d1 100%);
-    border-radius: 16px; padding: 1.6rem 2.4rem;
+    background: linear-gradient(135deg, #2d2a24 0%, #4a3828 55%, #5c4a30 100%);
+    border-radius: 14px; padding: 1.5rem 2.2rem;
     margin-bottom: 1.4rem;
-    box-shadow: 0 6px 28px rgba(13,71,161,0.28);
+    box-shadow: 0 6px 28px rgba(45,42,36,0.30);
     display: flex; align-items: center; gap: 1.8rem;
+    border-left: 4px solid #c4984a;
 }
 .hero-icon { font-size: 2.8rem; line-height: 1; flex-shrink: 0; }
 .hero-content { flex: 1; min-width: 0; }
 .hero-badge {
     display: inline-block;
-    background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.32);
-    color: #dbeafe; font-size: 0.68rem; font-weight: 700;
+    background: rgba(196,152,74,0.22); border: 1px solid rgba(196,152,74,0.50);
+    color: #e8c880; font-size: 0.68rem; font-weight: 700;
     padding: 2px 10px; border-radius: 20px; margin-bottom: 0.5rem;
     letter-spacing: 1px; text-transform: uppercase;
 }
 .hero-title {
-    color: #fff; font-size: 1.15rem; font-weight: 700;
+    color: #f5f0e8; font-size: 1.15rem; font-weight: 700;
     margin: 0 0 0.35rem; line-height: 1.4;
 }
-.hero-subtitle { color: #bfdbfe; font-size: 0.83rem; margin: 0; line-height: 1.55; }
+.hero-subtitle { color: #c8b898; font-size: 0.83rem; margin: 0; line-height: 1.55; }
 
 /* ── Section header ─────────────────────────────── */
 .section-header {
     display: flex; align-items: center; gap: 0.5rem;
     margin: 1.5rem 0 0.8rem; padding-bottom: 0.5rem;
-    border-bottom: 2px solid #dbeafe;
-    color: #1565c0; font-size: 0.97rem; font-weight: 600;
+    border-bottom: 2px solid #d8c8a8;
+    color: #5c4030; font-size: 0.97rem; font-weight: 600;
 }
 .section-header::before {
     content: ''; display: inline-block;
     width: 4px; height: 18px; border-radius: 3px;
-    background: #1976d2; flex-shrink: 0;
+    background: #b87840; flex-shrink: 0;
 }
 
 /* ── Metric cards ───────────────────────────────── */
 .metric-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.9rem; margin: 0.9rem 0 0.5rem; }
 .metric-card {
-    background: #fff; border-radius: 14px; padding: 1.1rem 1.3rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-left: 4px solid #1976d2;
+    background: #faf7f0; border-radius: 12px; padding: 1.1rem 1.3rem;
+    box-shadow: 0 2px 10px rgba(45,42,36,0.08); border-left: 4px solid #5c8a96;
     transition: box-shadow 0.2s;
 }
-.metric-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.11); }
-.metric-card.success { border-left-color: #2e7d32; }
-.metric-card.warning { border-left-color: #f57c00; }
-.metric-card.danger  { border-left-color: #c62828; }
+.metric-card:hover { box-shadow: 0 4px 18px rgba(45,42,36,0.13); }
+.metric-card.success { border-left-color: #5c8a96; }
+.metric-card.warning { border-left-color: #c4984a; }
+.metric-card.danger  { border-left-color: #a8212e; }
 .metric-icon  { font-size: 1.15rem; margin-bottom: 0.2rem; display: block; opacity: 0.85; }
 .metric-label {
-    font-size: 0.68rem; font-weight: 700; color: #64748b;
+    font-size: 0.68rem; font-weight: 700; color: #7a6a58;
     text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.3rem;
 }
-.metric-value { font-size: 1.85rem; font-weight: 700; color: #1565c0; line-height: 1; }
-.metric-card.success .metric-value { color: #2e7d32; }
-.metric-card.warning .metric-value { color: #f57c00; }
-.metric-card.danger  .metric-value { color: #c62828; }
+.metric-value { font-size: 1.85rem; font-weight: 700; color: #5c8a96; line-height: 1; }
+.metric-card.success .metric-value { color: #5c8a96; }
+.metric-card.warning .metric-value { color: #b87840; }
+.metric-card.danger  .metric-value { color: #a8212e; }
 .metric-status {
     display: inline-block; font-size: 0.65rem; font-weight: 600;
     padding: 2px 8px; border-radius: 20px; margin-top: 0.4rem;
-    background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;
+    background: #edf4f6; color: #3d6e7a; border: 1px solid #b0cdd4;
 }
 .metric-card.danger .metric-status {
-    background: #fff1f2; color: #be123c; border-color: #fecdd3;
+    background: #fdf0f0; color: #a8212e; border-color: #e8b0b0;
 }
 
 /* ── Region card ────────────────────────────────── */
 .region-card {
-    background: #fff; border-radius: 14px; padding: 1.3rem 1.5rem;
-    box-shadow: 0 2px 14px rgba(0,0,0,0.07);
-    border-top: 3px solid #1976d2; margin-top: 0.8rem;
+    background: #faf7f0; border-radius: 12px; padding: 1.3rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(45,42,36,0.08);
+    border-top: 3px solid #b87840; margin-top: 0.8rem;
 }
 .region-name {
-    font-size: 1.0rem; font-weight: 700; color: #1e3a5f;
+    font-size: 1.0rem; font-weight: 700; color: #2d2a24;
     margin-bottom: 0.45rem; display: flex; align-items: center; gap: 0.4rem;
 }
-.region-dot { width: 10px; height: 10px; border-radius: 50%; background: #e74c3c; flex-shrink: 0; display: inline-block; }
-.region-desc { font-size: 0.82rem; color: #475569; line-height: 1.65; margin-bottom: 0.9rem; }
+.region-dot { width: 10px; height: 10px; border-radius: 50%; background: #a8212e; flex-shrink: 0; display: inline-block; }
+.region-desc { font-size: 0.82rem; color: #5c4a38; line-height: 1.65; margin-bottom: 0.9rem; }
 .param-table { width: 100%; border-collapse: collapse; font-size: 0.81rem; border-radius: 8px; overflow: hidden; }
-.param-table thead tr { background: #1e3a5f; }
-.param-table th { color: #e2e8f0; font-weight: 600; padding: 7px 12px; text-align: left; font-size: 0.75rem; letter-spacing: 0.3px; }
-.param-table td { padding: 7px 12px; color: #334155; border-bottom: 1px solid #f1f5f9; }
-.param-table tr:nth-child(even) td { background: #f8fafc; }
+.param-table thead tr { background: #2d2a24; }
+.param-table th { color: #e8d8b8; font-weight: 600; padding: 7px 12px; text-align: left; font-size: 0.75rem; letter-spacing: 0.3px; }
+.param-table td { padding: 7px 12px; color: #3d3530; border-bottom: 1px solid #ede5d8; }
+.param-table tr:nth-child(even) td { background: #f5f0e8; }
 .param-table tr:last-child td { border-bottom: none; }
-.param-table td b { color: #1565c0; }
+.param-table td b { color: #b87840; }
 
 /* ── Error card ─────────────────────────────────── */
 .error-card {
-    background: #fff1f2; border-left: 4px solid #c62828; border-radius: 10px;
-    padding: 0.9rem 1.3rem; color: #9f1239; font-size: 0.88rem;
+    background: #fdf0f0; border-left: 4px solid #a8212e; border-radius: 10px;
+    padding: 0.9rem 1.3rem; color: #a8212e; font-size: 0.88rem;
 }
 
 /* ── Map hint caption ───────────────────────────── */
 .map-hint {
-    font-size: 0.8rem; color: #64748b; margin-bottom: 0.5rem;
+    font-size: 0.8rem; color: #7a6a58; margin-bottom: 0.5rem;
     display: flex; align-items: center; gap: 0.4rem;
 }
 
@@ -483,7 +483,7 @@ def map_tab_fragment(lang):
             f"<i>{d[:55]}…</i>"
         )
     marker_colors = [
-        "#e74c3c" if k == sel_r else "#1976d2" for k in REGION_KEYS
+        "#a8212e" if k == sel_r else "#b87840" for k in REGION_KEYS
     ]
     marker_sizes = [18 if k == sel_r else 12 for k in REGION_KEYS]
 
@@ -492,29 +492,30 @@ def map_tab_fragment(lang):
         text=names,
         hovertext=hover_texts,
         hoverinfo="text",
-        mode="markers+text",
-        textposition="top center",
-        textfont=dict(size=9, color="#334155"),
+        mode="markers",
         marker=dict(
             size=marker_sizes,
             color=marker_colors,
             symbol="circle",
-            line=dict(color="white", width=1.5),
-            opacity=0.92,
+            line=dict(color="#f5f0e8", width=1.5),
+            opacity=0.90,
         ),
         customdata=REGION_KEYS,
     ))
     fig_map.update_layout(
-        height=440, margin=dict(l=0, r=0, t=10, b=0),
+        height=400, margin=dict(l=0, r=0, t=0, b=0),
         paper_bgcolor="rgba(0,0,0,0)",
         geo=dict(
-            showland=True, landcolor="#eef2f7",
-            showocean=True, oceancolor="#dbeafe",
-            showlakes=True, lakecolor="#bfdbfe",
-            showcoastlines=True, coastlinecolor="#94a3b8",
+            showland=True, landcolor="#e8dcc8",
+            showocean=True, oceancolor="#c8d4d8",
+            showlakes=True, lakecolor="#b8ccd0",
+            showcoastlines=True, coastlinecolor="#a09080",
+            coastlinewidth=0.8,
             showframe=False,
-            showcountries=True, countrycolor="#cbd5e1",
+            showcountries=True, countrycolor="#c8b898",
+            countrywidth=0.5,
             projection_type="natural earth",
+            bgcolor="rgba(0,0,0,0)",
         ),
     )
 
@@ -656,7 +657,7 @@ with main_tab2:
         """, unsafe_allow_html=True)
 
         # 横向对比图
-        BLUE = "#1565c0"; GREEN = "#2e7d32"; ORANGE = "#e65100"
+        BLUE = "#5c8a96"; GREEN = "#5c8a96"; ORANGE = "#b87840"
         fig_bar = go.Figure()
         bar_items = [
             ("dc",    dc,    ORANGE, f"dc = {dc:.2f} m"),
@@ -675,7 +676,7 @@ with main_tab2:
         x_ax = "深度 (m)" if lang == "cn" else "Depth (m)"
         fig_bar.update_layout(
             height=155, margin=dict(l=10, r=20, t=8, b=8),
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="white", barmode="overlay",
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#faf7f0", barmode="overlay",
             xaxis=dict(title=x_ax, showgrid=False, zeroline=False, tickfont=dict(size=11)),
             yaxis=dict(showgrid=False, tickfont=dict(size=11)),
         )
@@ -698,7 +699,7 @@ with main_tab2:
     st.markdown("---")
     st.markdown(f'<div class="section-header">📈 {t["sens_header"][lang]}</div>', unsafe_allow_html=True)
 
-    LCOL = "#1565c0"; GCOL = "#7fb3d3"; RCOL = "#e53935"
+    LCOL = "#5c8a96"; GCOL = "#a0c0c8"; RCOL = "#a8212e"
 
     def sens_chart(x_arr, y_opt, y_unc, x_label, dc_val, cur_x, cur_y):
         fig = go.Figure()
@@ -713,7 +714,7 @@ with main_tab2:
         fig.add_trace(go.Scatter(
             x=x_arr, y=y_opt, name="D*",
             line=dict(color=LCOL, width=2.5),
-            fill="tozeroy", fillcolor="rgba(21,101,192,0.07)",
+            fill="tozeroy", fillcolor="rgba(92,138,150,0.08)",
             hovertemplate=f"{x_label}: %{{x:.1f}}<br>D*=%{{y:.2f}} m<extra></extra>",
         ))
         if cur_y is not None:
@@ -724,10 +725,10 @@ with main_tab2:
             ))
         fig.update_layout(
             height=320, margin=dict(l=10, r=20, t=18, b=8),
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="white",
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#faf7f0",
             legend=dict(orientation="h", y=1.05, x=1, xanchor="right", font=dict(size=11)),
-            xaxis=dict(title=x_label, showgrid=True, gridcolor="#eef2f7", tickfont=dict(size=11)),
-            yaxis=dict(title="D* (m)", showgrid=True, gridcolor="#eef2f7", tickfont=dict(size=11)),
+            xaxis=dict(title=x_label, showgrid=True, gridcolor="#ede5d8", tickfont=dict(size=11)),
+            yaxis=dict(title="D* (m)", showgrid=True, gridcolor="#ede5d8", tickfont=dict(size=11)),
             hovermode="x unified",
         )
         return fig

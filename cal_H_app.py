@@ -529,22 +529,22 @@ def map_tab_fragment(lang):
         config={"displayModeBar": False, "scrollZoom": False},
     )
 
-    # 处理点击 → 更新选中灌区
+    # 处理点击 → 更新选中灌区，同步下拉框 session state
+    custom_label = t["sel_custom"][lang]
+    dd_options = [custom_label] + [REGIONS[k]["name_" + lang] for k in REGION_KEYS]
+
     if map_event and map_event.selection and map_event.selection.point_indices:
         clicked_idx = map_event.selection.point_indices[0]
         if 0 <= clicked_idx < len(REGION_KEYS):
-            st.session_state.sel_region = REGION_KEYS[clicked_idx]
-            sel_r = st.session_state.sel_region
+            new_key = REGION_KEYS[clicked_idx]
+            st.session_state.sel_region = new_key
+            sel_r = new_key
+            # 同步 selectbox widget 状态，保证下拉框和地图一致
+            st.session_state.region_dd = REGIONS[new_key]["name_" + lang]
 
-    # 下拉框同步（selectbox 变化自动触发 fragment 重跑，无需手动 rerun）
-    custom_label = t["sel_custom"][lang]
-    dd_options = [custom_label] + [REGIONS[k]["name_" + lang] for k in REGION_KEYS]
+    # 下拉框（selectbox 变化自动触发 fragment 重跑）
     current_sel_name = REGIONS[sel_r]["name_" + lang] if sel_r else custom_label
-    try:
-        dd_idx = dd_options.index(current_sel_name)
-    except ValueError:
-        dd_idx = 0
-    chosen = st.selectbox(t["sel_label"][lang], dd_options, index=dd_idx, key="region_dd")
+    chosen = st.selectbox(t["sel_label"][lang], dd_options, key="region_dd")
     if chosen != custom_label:
         for k in REGION_KEYS:
             if REGIONS[k]["name_" + lang] == chosen:

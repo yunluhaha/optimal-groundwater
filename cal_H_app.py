@@ -290,7 +290,12 @@ st.markdown("""
     display: flex; align-items: center; gap: 0.4rem;
 }
 
-#MainMenu {visibility:hidden;} footer {visibility:hidden;} header {visibility:hidden;}
+#MainMenu {visibility:hidden;}
+footer {visibility:hidden;}
+header {visibility:hidden;}
+/* 恢复侧边栏折叠/展开按钮 */
+[data-testid="stSidebarCollapsedControl"] {visibility:visible !important;}
+[data-testid="collapsedControl"] {visibility:visible !important;}
 </style>
 """, unsafe_allow_html=True)
 

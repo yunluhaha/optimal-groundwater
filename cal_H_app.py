@@ -145,76 +145,142 @@ st.set_page_config(
 # ====== 5. CSS ======
 st.markdown("""
 <style>
-.stApp { background-color: #f5f7fa !important; color: #1e293b !important; }
-.main .block-container { color: #1e293b !important; }
+/* ── Base ───────────────────────────────────────── */
+.stApp { background-color: #f0f4f8 !important; color: #1e293b !important; }
+.main .block-container { color: #1e293b !important; padding-top: 1rem !important; }
 [data-testid="stMarkdownContainer"] p,
-[data-testid="stMarkdownContainer"] li,
+[data-testid="stMarkdownContainer"] li  { color: #1e293b !important; font-size: 0.88rem; }
 [data-testid="stMarkdownContainer"] h1,
 [data-testid="stMarkdownContainer"] h2,
-[data-testid="stMarkdownContainer"] h3 { color: #1e293b !important; }
-.stSelectbox label, .stSlider label, .stRadio label { color: #1e293b !important; }
+[data-testid="stMarkdownContainer"] h3  { color: #1e293b !important; }
+.stSelectbox label, .stSlider label, .stRadio label { color: #334155 !important; font-size: 0.82rem !important; }
 
-.hero-container {
-    background: linear-gradient(120deg, #1565c0 0%, #1976d2 55%, #0288d1 100%);
-    border-radius: 14px; padding: 2rem 2.6rem; margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(21,101,192,0.22);
+/* ── Sidebar ────────────────────────────────────── */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #1e3a5f 0%, #1565c0 100%) !important;
 }
+[data-testid="stSidebar"] * { color: #e8f1fc !important; }
+[data-testid="stSidebar"] .stSelectbox label,
+[data-testid="stSidebar"] .stSlider label,
+[data-testid="stSidebar"] .stRadio label  { color: #c7dff7 !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 { color: #ffffff !important; font-size: 0.95rem !important; letter-spacing: 0.2px; }
+[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.15) !important; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p { color: #c7dff7 !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] .stInfo  { background: rgba(255,255,255,0.1) !important; border: 1px solid rgba(255,255,255,0.18) !important; border-radius: 8px !important; }
+[data-testid="stSidebar"] .stExpander { background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.15) !important; border-radius: 8px !important; }
+
+/* ── Tabs ───────────────────────────────────────── */
+.stTabs [data-baseweb="tab-list"] {
+    background: #ffffff; border-radius: 10px;
+    padding: 4px 6px; gap: 4px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+.stTabs [data-baseweb="tab"] {
+    border-radius: 7px; padding: 6px 18px;
+    font-size: 0.85rem; font-weight: 500; color: #64748b;
+}
+.stTabs [aria-selected="true"] {
+    background: #1565c0 !important; color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(21,101,192,0.35);
+}
+
+/* ── Hero ───────────────────────────────────────── */
+.hero-container {
+    background: linear-gradient(135deg, #0d47a1 0%, #1976d2 60%, #0288d1 100%);
+    border-radius: 16px; padding: 1.6rem 2.4rem;
+    margin-bottom: 1.4rem;
+    box-shadow: 0 6px 28px rgba(13,71,161,0.28);
+    display: flex; align-items: center; gap: 1.8rem;
+}
+.hero-icon { font-size: 2.8rem; line-height: 1; flex-shrink: 0; }
+.hero-content { flex: 1; min-width: 0; }
 .hero-badge {
     display: inline-block;
-    background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35);
-    color: #e3f2fd; font-size: 0.72rem; font-weight: 600;
-    padding: 3px 12px; border-radius: 20px; margin-bottom: 0.7rem;
-    letter-spacing: 0.8px; text-transform: uppercase;
+    background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.32);
+    color: #dbeafe; font-size: 0.68rem; font-weight: 700;
+    padding: 2px 10px; border-radius: 20px; margin-bottom: 0.5rem;
+    letter-spacing: 1px; text-transform: uppercase;
 }
-.hero-title   { color: #fff; font-size: 1.65rem; font-weight: 700; margin: 0 0 0.45rem; line-height: 1.3; }
-.hero-subtitle{ color: #bbdefb; font-size: 0.9rem; margin: 0; line-height: 1.6; }
+.hero-title {
+    color: #fff; font-size: 1.25rem; font-weight: 700;
+    margin: 0 0 0.35rem; line-height: 1.4; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
+.hero-subtitle { color: #bfdbfe; font-size: 0.83rem; margin: 0; line-height: 1.55; }
 
-.metric-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin: 0.8rem 0 0.4rem; }
-.metric-card {
-    background: #fff; border-radius: 12px; padding: 1.2rem 1.4rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-left: 5px solid #1976d2;
+/* ── Section header ─────────────────────────────── */
+.section-header {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin: 1.5rem 0 0.8rem; padding-bottom: 0.5rem;
+    border-bottom: 2px solid #dbeafe;
+    color: #1565c0; font-size: 0.97rem; font-weight: 600;
 }
+.section-header::before {
+    content: ''; display: inline-block;
+    width: 4px; height: 18px; border-radius: 3px;
+    background: #1976d2; flex-shrink: 0;
+}
+
+/* ── Metric cards ───────────────────────────────── */
+.metric-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.9rem; margin: 0.9rem 0 0.5rem; }
+.metric-card {
+    background: #fff; border-radius: 14px; padding: 1.1rem 1.3rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-left: 4px solid #1976d2;
+    transition: box-shadow 0.2s;
+}
+.metric-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.11); }
 .metric-card.success { border-left-color: #2e7d32; }
-.metric-card.warning { border-left-color: #e65100; }
+.metric-card.warning { border-left-color: #f57c00; }
 .metric-card.danger  { border-left-color: #c62828; }
-.metric-icon  { font-size: 1.3rem; margin-bottom: 0.25rem; display: block; }
-.metric-label { font-size: 0.72rem; font-weight: 600; color: #546e7a; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 0.25rem; }
-.metric-value { font-size: 1.9rem; font-weight: 700; color: #1565c0; line-height: 1; }
+.metric-icon  { font-size: 1.15rem; margin-bottom: 0.2rem; display: block; opacity: 0.85; }
+.metric-label {
+    font-size: 0.68rem; font-weight: 700; color: #64748b;
+    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.3rem;
+}
+.metric-value { font-size: 1.85rem; font-weight: 700; color: #1565c0; line-height: 1; }
 .metric-card.success .metric-value { color: #2e7d32; }
-.metric-card.warning .metric-value { color: #e65100; }
+.metric-card.warning .metric-value { color: #f57c00; }
 .metric-card.danger  .metric-value { color: #c62828; }
 .metric-status {
-    display: inline-block; font-size: 0.68rem; font-weight: 600;
-    padding: 2px 9px; border-radius: 20px; margin-top: 0.4rem;
-    background: #e3f2fd; color: #1565c0;
+    display: inline-block; font-size: 0.65rem; font-weight: 600;
+    padding: 2px 8px; border-radius: 20px; margin-top: 0.4rem;
+    background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;
 }
-.metric-card.danger .metric-status { background: #ffebee; color: #c62828; }
-
-.section-header {
-    margin: 1.6rem 0 0.7rem; padding-bottom: 0.45rem;
-    border-bottom: 2px solid #e0e7ef;
-    color: #1565c0; font-size: 1.0rem; font-weight: 600;
+.metric-card.danger .metric-status {
+    background: #fff1f2; color: #be123c; border-color: #fecdd3;
 }
 
-/* 灌区信息卡 */
+/* ── Region card ────────────────────────────────── */
 .region-card {
-    background: #fff; border-radius: 12px; padding: 1.4rem 1.6rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-top: 4px solid #1976d2;
-    margin-top: 0.5rem;
+    background: #fff; border-radius: 14px; padding: 1.3rem 1.5rem;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+    border-top: 3px solid #1976d2; margin-top: 0.8rem;
 }
-.region-name  { font-size: 1.1rem; font-weight: 700; color: #1565c0; margin-bottom: 0.5rem; }
-.region-desc  { font-size: 0.85rem; color: #37474f; line-height: 1.6; margin-bottom: 0.9rem; }
-.param-table  { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
-.param-table th {
-    background: #e3f2fd; color: #1565c0; font-weight: 600;
-    padding: 5px 10px; text-align: left; border-radius: 4px;
+.region-name {
+    font-size: 1.0rem; font-weight: 700; color: #1e3a5f;
+    margin-bottom: 0.45rem; display: flex; align-items: center; gap: 0.4rem;
 }
-.param-table td { padding: 5px 10px; color: #263238; border-bottom: 1px solid #f0f4f8; }
+.region-dot { width: 10px; height: 10px; border-radius: 50%; background: #e74c3c; flex-shrink: 0; display: inline-block; }
+.region-desc { font-size: 0.82rem; color: #475569; line-height: 1.65; margin-bottom: 0.9rem; }
+.param-table { width: 100%; border-collapse: collapse; font-size: 0.81rem; border-radius: 8px; overflow: hidden; }
+.param-table thead tr { background: #1e3a5f; }
+.param-table th { color: #e2e8f0; font-weight: 600; padding: 7px 12px; text-align: left; font-size: 0.75rem; letter-spacing: 0.3px; }
+.param-table td { padding: 7px 12px; color: #334155; border-bottom: 1px solid #f1f5f9; }
+.param-table tr:nth-child(even) td { background: #f8fafc; }
 .param-table tr:last-child td { border-bottom: none; }
+.param-table td b { color: #1565c0; }
 
+/* ── Error card ─────────────────────────────────── */
 .error-card {
-    background: #ffebee; border-left: 5px solid #c62828; border-radius: 10px;
-    padding: 1rem 1.4rem; color: #b71c1c; font-weight: 500;
+    background: #fff1f2; border-left: 4px solid #c62828; border-radius: 10px;
+    padding: 0.9rem 1.3rem; color: #9f1239; font-size: 0.88rem;
+}
+
+/* ── Map hint caption ───────────────────────────── */
+.map-hint {
+    font-size: 0.8rem; color: #64748b; margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.4rem;
 }
 
 #MainMenu {visibility:hidden;} footer {visibility:hidden;} header {visibility:hidden;}
@@ -341,9 +407,12 @@ D_unc, D_opt = calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime)
 # ====== 10. Hero ======
 st.markdown(f"""
 <div class="hero-container">
-  <div class="hero-badge">🔬 {t['badge'][lang]}</div>
-  <h1 class="hero-title">💧 {t['title'][lang]}</h1>
-  <p class="hero-subtitle">{t['desc'][lang]}</p>
+  <div class="hero-icon">💧</div>
+  <div class="hero-content">
+    <div class="hero-badge">🔬 {t['badge'][lang]}</div>
+    <h1 class="hero-title">{t['title'][lang]}</h1>
+    <p class="hero-subtitle">{t['desc'][lang]}</p>
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -389,7 +458,7 @@ with main_tab1:
         hoverinfo="text",
         mode="markers+text",
         textposition="top center",
-        textfont=dict(size=10, color="#1e293b"),
+        textfont=dict(size=9, color="#334155"),
         marker=dict(
             size=marker_sizes,
             color=marker_colors,
@@ -420,6 +489,7 @@ with main_tab1:
         on_select="rerun",
         selection_mode="points",
         key="map_chart",
+        config={"displayModeBar": False, "scrollZoom": False},
     )
 
     # 处理点击 → 选中灌区（不立即应用参数）
@@ -482,7 +552,7 @@ with main_tab1:
         )
         st.markdown(f"""
         <div class="region-card">
-          <div class="region-name">📍 {name}</div>
+          <div class="region-name"><span class="region-dot"></span>{name}</div>
           <div class="region-desc">{desc}</div>
           <table class="param-table">
             <tr><th>{h[0]}</th><th>{h[1]}</th><th>{h[2]}</th></tr>

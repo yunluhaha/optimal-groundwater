@@ -239,13 +239,13 @@ st.markdown("""
 .section-header {
     display: flex; align-items: center; gap: 0.5rem;
     margin: 1.5rem 0 0.8rem; padding-bottom: 0.5rem;
-    border-bottom: 2px solid #d8c8a8;
-    color: #5c4030; font-size: 0.97rem; font-weight: 600;
+    border-bottom: 2px solid #b8d0d8;
+    color: #7aaab8; font-size: 0.97rem; font-weight: 600;
 }
 .section-header::before {
     content: ''; display: inline-block;
     width: 4px; height: 18px; border-radius: 3px;
-    background: #b87840; flex-shrink: 0;
+    background: #7aaab8; flex-shrink: 0;
 }
 
 /* ── Metric cards ───────────────────────────────── */

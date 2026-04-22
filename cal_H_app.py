@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 from PIL import Image
 
 # ====== 1. 核心计算函数 ======
+@st.cache_data(max_entries=512)
 def calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime, I=0.3216, mu=1.3603):
     theta = 0.23; rho_s = 1475.0
     delta = 0.29; f = 0.5
@@ -454,9 +455,10 @@ st.markdown(f"""
 main_tab1, main_tab2 = st.tabs([t["tab_map"][lang], t["tab_calc"][lang]])
 
 # ─────────────────────────────────────────────
-# TAB 1：全球灌区地图
+# TAB 1：全球灌区地图（fragment 隔离，点击不触发全页重跑）
 # ─────────────────────────────────────────────
-with main_tab1:
+@st.fragment
+def map_tab_fragment(lang):
     st.markdown(f'<div class="section-header">🌍 {t["map_title"][lang]}</div>', unsafe_allow_html=True)
     st.caption(t["map_hint"][lang])
 
@@ -516,7 +518,7 @@ with main_tab1:
         ),
     )
 
-    # 地图点击事件
+    # 地图点击事件（fragment 内只重跑 fragment）
     map_event = st.plotly_chart(
         fig_map,
         use_container_width=True,
@@ -526,13 +528,14 @@ with main_tab1:
         config={"displayModeBar": False, "scrollZoom": False},
     )
 
-    # 处理点击 → 选中灌区（不立即应用参数）
+    # 处理点击 → 更新选中灌区
     if map_event and map_event.selection and map_event.selection.point_indices:
         clicked_idx = map_event.selection.point_indices[0]
         if 0 <= clicked_idx < len(REGION_KEYS):
             st.session_state.sel_region = REGION_KEYS[clicked_idx]
+            sel_r = st.session_state.sel_region
 
-    # 下拉框同步
+    # 下拉框同步（selectbox 变化自动触发 fragment 重跑，无需手动 rerun）
     custom_label = t["sel_custom"][lang]
     dd_options = [custom_label] + [REGIONS[k]["name_" + lang] for k in REGION_KEYS]
     current_sel_name = REGIONS[sel_r]["name_" + lang] if sel_r else custom_label
@@ -546,15 +549,15 @@ with main_tab1:
             if REGIONS[k]["name_" + lang] == chosen:
                 if st.session_state.sel_region != k:
                     st.session_state.sel_region = k
-                    st.rerun()
+                    sel_r = k
     else:
         if st.session_state.sel_region is not None:
             st.session_state.sel_region = None
-            st.rerun()
+            sel_r = None
 
     # 选中灌区信息卡 + 应用按钮
-    if st.session_state.sel_region:
-        r = REGIONS[st.session_state.sel_region]
+    if sel_r:
+        r = REGIONS[sel_r]
         name  = r["name_" + lang]
         desc  = r["desc_" + lang]
         e0r   = r["E0_range"]; e0d = r["E0_default"]
@@ -604,11 +607,14 @@ with main_tab1:
         st.markdown("")
         if st.button(t["apply_btn"][lang], type="primary", use_container_width=True):
             st.session_state._do_apply = True
-            st.rerun()
+            st.rerun()  # 全页重跑以更新侧边栏滑块
 
         if not st.session_state._do_apply and st.session_state.get("_just_applied"):
             st.success(t["apply_ok"][lang])
             st.session_state._just_applied = False
+
+with main_tab1:
+    map_tab_fragment(lang)
 
 
 # ─────────────────────────────────────────────
@@ -729,7 +735,7 @@ with main_tab2:
     ts1, ts2, ts3 = st.tabs([t["tab_sg"][lang], t["tab_e0"][lang], t["tab_si"][lang]])
 
     with ts1:
-        sg_arr = np.linspace(1000, 8000, 120)
+        sg_arr = np.linspace(1000, 8000, 80)
         fig = sens_chart(
             sg_arr,
             [calc_D_star(E0, SI, sg, dc, Ky, b, EC_prime, I_irr, mu)[1] for sg in sg_arr],
@@ -739,7 +745,7 @@ with main_tab2:
         st.plotly_chart(fig, use_container_width=True)
 
     with ts2:
-        e0_arr = np.linspace(1.0, 3.0, 120)
+        e0_arr = np.linspace(1.0, 3.0, 80)
         fig = sens_chart(
             e0_arr,
             [calc_D_star(e, SI, Sg, dc, Ky, b, EC_prime, I_irr, mu)[1] for e in e0_arr],
@@ -749,7 +755,7 @@ with main_tab2:
         st.plotly_chart(fig, use_container_width=True)
 
     with ts3:
-        si_arr = np.linspace(100, 3000, 120)
+        si_arr = np.linspace(100, 3000, 80)
         fig = sens_chart(
             si_arr,
             [calc_D_star(E0, si, Sg, dc, Ky, b, EC_prime, I_irr, mu)[1] for si in si_arr],

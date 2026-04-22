@@ -5,10 +5,10 @@ import plotly.graph_objects as go
 from PIL import Image
 
 # ====== 1. 核心计算函数 ======
-def calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime):
+def calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime, I=0.3216, mu=1.3603):
     theta = 0.23; rho_s = 1475.0
-    I = 0.3216; delta = 0.29; f = 0.5
-    alpha = 2.156; beta = 0.616; lam = 1.7256; mu = 1.3603
+    delta = 0.29; f = 0.5
+    alpha = 2.156; beta = 0.616; lam = 1.7256
     eps = 0.5; omega = 0.405; q = 0.1; P = 0.0
     M = -(alpha * theta * b * Sg) / (100.0 * Ky * rho_s * f * delta * I)
     term_SI = SI * (1.0 - (1.0 - f) * delta) / (f * delta)
@@ -32,6 +32,8 @@ REGIONS = {
         "SI_range": (500, 1000), "SI_default": 750,
         "Sg_range": (3000, 8000), "Sg_default": 5000,
         "hv_range": (0.8, 1.5), "hv_default": 1.2,
+        "I_range": (0.30, 0.60), "I_default": 0.45,
+        "mu_range": (1.1, 1.6), "mu_default": 1.36,
         "crop_default": "sunflower",
         "desc_cn": "黄河中游干旱灌区，浅层地下水埋深 1–3 m，土壤盐碱化严重，是本模型主要研究区之一。典型作物：向日葵、小麦、玉米。",
         "desc_en": "Mid-Yellow River arid irrigation district; shallow GW 1–3 m; severe secondary salinization. Primary study region of this model. Crops: sunflower, wheat, maize.",
@@ -43,6 +45,8 @@ REGIONS = {
         "SI_range": (400, 900),  "SI_default": 650,
         "Sg_range": (2000, 6000),"Sg_default": 4000,
         "hv_range": (0.8, 1.4), "hv_default": 1.0,
+        "I_range": (0.25, 0.55), "I_default": 0.38,
+        "mu_range": (1.1, 1.7), "mu_default": 1.40,
         "crop_default": "wheat",
         "desc_cn": "黄河上游引黄灌区，温带大陆性气候，蒸发强烈，盐分随毛管水上升积累。典型作物：小麦、水稻、苜蓿。",
         "desc_en": "Upper Yellow River irrigation; continental arid climate; strong evaporation drives capillary salt rise. Crops: wheat, rice, alfalfa.",
@@ -54,6 +58,8 @@ REGIONS = {
         "SI_range": (650, 2860), "SI_default": 1500,
         "Sg_range": (5000, 8000),"Sg_default": 8000,
         "hv_range": (0.6, 1.2), "hv_default": 0.9,
+        "I_range": (0.40, 0.80), "I_default": 0.60,
+        "mu_range": (0.8, 1.3), "mu_default": 1.05,
         "crop_default": "wheat",
         "desc_cn": "93% 浅层地下水不适合灌溉，Na-Cl 型高矿化水；古代灌溉文明与现代盐化危机并存。典型作物：小麦、水稻、蔬菜。",
         "desc_en": "93% of shallow GW unfit for irrigation; Na-Cl brine; ancient irrigation heritage faces modern salinity crisis. Crops: wheat, rice, vegetables.",
@@ -65,6 +71,8 @@ REGIONS = {
         "SI_range": (400, 1000), "SI_default": 700,
         "Sg_range": (1000, 8000),"Sg_default": 3000,
         "hv_range": (1.0, 1.6), "hv_default": 1.2,
+        "I_range": (0.35, 0.70), "I_default": 0.52,
+        "mu_range": (1.0, 1.5), "mu_default": 1.28,
         "crop_default": "wheat",
         "desc_cn": "南亚最大灌溉系统（16 Mha），35–40% 区域浅层含水层含盐；渍涝与盐化并发。典型作物：小麦、水稻、棉花。",
         "desc_en": "S. Asia's largest irrigation system (16 Mha); 35–40% underlain by saline aquifer; endemic waterlogging. Crops: wheat, rice, cotton.",
@@ -76,6 +84,8 @@ REGIONS = {
         "SI_range": (300, 1500), "SI_default": 800,
         "Sg_range": (1500, 5000),"Sg_default": 2500,
         "hv_range": (0.8, 1.8), "hv_default": 1.2,
+        "I_range": (0.20, 0.50), "I_default": 0.32,
+        "mu_range": (1.3, 2.0), "mu_default": 1.62,
         "crop_default": "wheat",
         "desc_cn": "澳大利亚最重要农业区；灌溉引发地下水位上升（最高达 25 m），旱地盐化造成大面积土地退化。典型作物：小麦、棉花、水稻。",
         "desc_en": "Australia's most productive farming area; irrigation-induced water table rise (up to 25 m) drives dryland salinization. Crops: wheat, cotton, rice.",
@@ -87,6 +97,8 @@ REGIONS = {
         "SI_range": (600, 1500), "SI_default": 1000,
         "Sg_range": (1750, 5000),"Sg_default": 2500,
         "hv_range": (0.8, 1.2), "hv_default": 1.0,
+        "I_range": (0.40, 0.75), "I_default": 0.55,
+        "mu_range": (1.0, 1.5), "mu_default": 1.25,
         "crop_default": "wheat",
         "desc_cn": "咸海消亡引发的全球最大生态灾难之一；45% 灌区盐化，棉田地下水平均埋深仅 1.5 m。典型作物：棉花、苜蓿。",
         "desc_en": "One of the world's worst eco-disasters; 45% irrigated area saline; cotton fields average 1.5 m GW depth. Crops: cotton, alfalfa.",
@@ -98,6 +110,8 @@ REGIONS = {
         "SI_range": (500, 2000), "SI_default": 1200,
         "Sg_range": (1000, 8000),"Sg_default": 4000,
         "hv_range": (1.0, 1.6), "hv_default": 1.3,
+        "I_range": (0.25, 0.55), "I_default": 0.38,
+        "mu_range": (1.1, 1.7), "mu_default": 1.42,
         "crop_default": "maize",
         "desc_cn": "美国最高产农业区之一；硒污染与地下水盐化并存，每年 2 Mt 盐随灌溉水输入。典型作物：棉花、苜蓿、玉米。",
         "desc_en": "Among US's most productive regions; selenium contamination co-exists with 2 Mt/yr salt import via irrigation. Crops: cotton, alfalfa, maize.",
@@ -109,6 +123,8 @@ REGIONS = {
         "SI_range": (800, 3000), "SI_default": 1400,
         "Sg_range": (3000, 8000),"Sg_default": 6500,
         "hv_range": (0.8, 1.4), "hv_default": 1.1,
+        "I_range": (0.45, 0.80), "I_default": 0.62,
+        "mu_range": (0.8, 1.3), "mu_default": 1.08,
         "crop_default": "wheat",
         "desc_cn": "人类文明起源地；60–70% 土地已盐化；Na-Cl/Ca-Cl 型地下水毛管上升是主因。典型作物：小麦、大麦、椰枣。",
         "desc_en": "Cradle of civilization; 60–70% of land salinized; Na-Cl/Ca-Cl GW capillary rise is the primary mechanism. Crops: wheat, barley, date palms.",
@@ -119,6 +135,7 @@ REGION_KEYS = list(REGIONS.keys())
 # ====== 3. Session state 初始化 ======
 _defaults = {
     "E0_s": 1.237, "SI_s": 586, "Sg_s": 4000, "hv_s": 1.8,
+    "I_s": 0.3216, "mu_s": 1.3603,
     "crop_sel": "sunflower", "sel_region": None, "_do_apply": False,
 }
 for k, v in _defaults.items():
@@ -132,6 +149,8 @@ if st.session_state._do_apply and st.session_state.sel_region:
     st.session_state.SI_s   = int(r["SI_default"])
     st.session_state.Sg_s   = int(r["Sg_default"])
     st.session_state.hv_s   = float(r["hv_default"])
+    st.session_state.I_s    = float(r["I_default"])
+    st.session_state.mu_s   = float(r["mu_default"])
     st.session_state.crop_sel = r["crop_default"]
     st.session_state._do_apply = False
 
@@ -319,6 +338,9 @@ t = {
     "E0_label": {"cn": "潜在蒸发量 E₀ (m/yr)", "en": "Potential Evaporation E₀ (m/yr)"},
     "SI_label": {"cn": "灌溉水矿化度 SI (mg/L)", "en": "Irrigation Water Salinity SI (mg/L)"},
     "Sg_label": {"cn": "地下水矿化度 Sg (mg/L)", "en": "Groundwater Salinity Sg (mg/L)"},
+    "sidebar_header3": {"cn": "🪨 土壤与灌溉参数", "en": "🪨 Soil & Irrigation Parameters"},
+    "I_label":  {"cn": "灌溉定额 I (m)",        "en": "Irrigation Quota I (m)"},
+    "mu_label": {"cn": "土壤毛管系数 μ（粗粒↑细粒↓）", "en": "Soil Capillary Coeff. μ (coarse↑ fine↓)"},
     "sidebar_header2": {"cn": "🌿 生态约束", "en": "🌿 Ecological Constraints"},
     "hv_label": {"cn": "植被根系厚度 hv (m)", "en": "Vegetation Root Thickness hv (m)"},
     "dc_info":  {"cn": "生态红线 **dc** = `{dc:.2f} m`", "en": "Ecological Redline **dc** = `{dc:.2f} m`"},
@@ -394,6 +416,11 @@ SI = st.sidebar.slider(t["SI_label"][lang], min_value=100,  max_value=3000,  ste
 Sg = st.sidebar.slider(t["Sg_label"][lang], min_value=1000, max_value=8000,  step=50,   key="Sg_s")
 
 st.sidebar.markdown("---")
+st.sidebar.header(t["sidebar_header3"][lang])
+I_irr = st.sidebar.slider(t["I_label"][lang],  min_value=0.05, max_value=0.80, step=0.01, key="I_s")
+mu    = st.sidebar.slider(t["mu_label"][lang], min_value=0.5,  max_value=2.5,  step=0.05, key="mu_s")
+
+st.sidebar.markdown("---")
 st.sidebar.header(t["sidebar_header2"][lang])
 hv = st.sidebar.slider(t["hv_label"][lang], min_value=0.1,  max_value=10.0,  step=0.1,  key="hv_s")
 Dp = 1.48
@@ -409,7 +436,7 @@ with st.sidebar.expander(t["expander_title"][lang], expanded=False):
         pass
 
 # ====== 9. 计算 ======
-D_unc, D_opt = calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime)
+D_unc, D_opt = calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime, I_irr, mu)
 
 # ====== 10. Hero ======
 st.markdown(f"""
@@ -534,23 +561,29 @@ with main_tab1:
         sir   = r["SI_range"]; sid = r["SI_default"]
         sgr   = r["Sg_range"]; sgd = r["Sg_default"]
         hvr   = r["hv_range"]; hvd = r["hv_default"]
+        ir    = r["I_range"];  id_ = r["I_default"]
+        mur   = r["mu_range"]; mud = r["mu_default"]
         h  = t["region_params_" + lang]
         cr = crop_display_names[r["crop_default"]][lang]
 
         if lang == "cn":
             rows = [
-                ("潜在蒸发量 E₀ (m/yr)", f"{e0r[0]}–{e0r[1]}", f"{e0d}"),
-                ("灌溉水矿化度 SI (mg/L)", f"{sir[0]}–{sir[1]}", f"{sid}"),
-                ("地下水矿化度 Sg (mg/L)", f"{sgr[0]}–{sgr[1]}", f"{sgd}"),
-                ("植被根系厚度 hv (m)",   f"{hvr[0]}–{hvr[1]}", f"{hvd}"),
+                ("潜在蒸发量 E₀ (m/yr)",   f"{e0r[0]}–{e0r[1]}", f"{e0d}"),
+                ("灌溉水矿化度 SI (mg/L)",  f"{sir[0]}–{sir[1]}", f"{sid}"),
+                ("地下水矿化度 Sg (mg/L)",  f"{sgr[0]}–{sgr[1]}", f"{sgd}"),
+                ("灌溉定额 I (m)",           f"{ir[0]}–{ir[1]}",   f"{id_}"),
+                ("土壤毛管系数 μ",           f"{mur[0]}–{mur[1]}", f"{mud}"),
+                ("植被根系厚度 hv (m)",      f"{hvr[0]}–{hvr[1]}", f"{hvd}"),
                 ("典型作物", "—", cr),
             ]
         else:
             rows = [
-                ("Potential Evap. E₀ (m/yr)", f"{e0r[0]}–{e0r[1]}", f"{e0d}"),
-                ("Irrigation Salinity SI (mg/L)", f"{sir[0]}–{sir[1]}", f"{sid}"),
-                ("Groundwater Salinity Sg (mg/L)", f"{sgr[0]}–{sgr[1]}", f"{sgd}"),
-                ("Root Thickness hv (m)", f"{hvr[0]}–{hvr[1]}", f"{hvd}"),
+                ("Potential Evap. E₀ (m/yr)",      f"{e0r[0]}–{e0r[1]}", f"{e0d}"),
+                ("Irrigation Salinity SI (mg/L)",   f"{sir[0]}–{sir[1]}", f"{sid}"),
+                ("Groundwater Salinity Sg (mg/L)",  f"{sgr[0]}–{sgr[1]}", f"{sgd}"),
+                ("Irrigation Quota I (m)",           f"{ir[0]}–{ir[1]}",   f"{id_}"),
+                ("Soil Capillary Coeff. μ",          f"{mur[0]}–{mur[1]}", f"{mud}"),
+                ("Root Thickness hv (m)",            f"{hvr[0]}–{hvr[1]}", f"{hvd}"),
                 ("Typical Crop", "—", cr),
             ]
         rows_html = "".join(
@@ -699,8 +732,8 @@ with main_tab2:
         sg_arr = np.linspace(1000, 8000, 120)
         fig = sens_chart(
             sg_arr,
-            [calc_D_star(E0, SI, sg, dc, Ky, b, EC_prime)[1] for sg in sg_arr],
-            [calc_D_star(E0, SI, sg, dc, Ky, b, EC_prime)[0] for sg in sg_arr],
+            [calc_D_star(E0, SI, sg, dc, Ky, b, EC_prime, I_irr, mu)[1] for sg in sg_arr],
+            [calc_D_star(E0, SI, sg, dc, Ky, b, EC_prime, I_irr, mu)[0] for sg in sg_arr],
             "Sg (mg/L)", dc, Sg, D_opt,
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -709,8 +742,8 @@ with main_tab2:
         e0_arr = np.linspace(1.0, 3.0, 120)
         fig = sens_chart(
             e0_arr,
-            [calc_D_star(e, SI, Sg, dc, Ky, b, EC_prime)[1] for e in e0_arr],
-            [calc_D_star(e, SI, Sg, dc, Ky, b, EC_prime)[0] for e in e0_arr],
+            [calc_D_star(e, SI, Sg, dc, Ky, b, EC_prime, I_irr, mu)[1] for e in e0_arr],
+            [calc_D_star(e, SI, Sg, dc, Ky, b, EC_prime, I_irr, mu)[0] for e in e0_arr],
             "E₀ (m)", dc, E0, D_opt,
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -719,8 +752,8 @@ with main_tab2:
         si_arr = np.linspace(100, 3000, 120)
         fig = sens_chart(
             si_arr,
-            [calc_D_star(E0, si, Sg, dc, Ky, b, EC_prime)[1] for si in si_arr],
-            [calc_D_star(E0, si, Sg, dc, Ky, b, EC_prime)[0] for si in si_arr],
+            [calc_D_star(E0, si, Sg, dc, Ky, b, EC_prime, I_irr, mu)[1] for si in si_arr],
+            [calc_D_star(E0, si, Sg, dc, Ky, b, EC_prime, I_irr, mu)[0] for si in si_arr],
             "SI (mg/L)", dc, SI, D_opt,
         )
         st.plotly_chart(fig, use_container_width=True)

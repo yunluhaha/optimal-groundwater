@@ -500,8 +500,8 @@ def map_tab_fragment(lang):
         height=400, margin=dict(l=0, r=0, t=0, b=0),
         paper_bgcolor="rgba(0,0,0,0)",
         hoverlabel=dict(
-            bgcolor="rgba(245,240,232,0.72)",
-            bordercolor="rgba(168,188,196,0.6)",
+            bgcolor="rgba(245,240,232,0.35)",
+            bordercolor="rgba(168,188,196,0.4)",
             font=dict(size=11, color="#2d2a24"),
         ),
         geo=dict(

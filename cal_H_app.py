@@ -142,80 +142,159 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ====== 5. CSS ======
+# ====== 5. CSS — Nature journal style ======
+# Palette: navy #1B2A4A | orange #E84C22 | text #333 | border #D5D5D5 | bg #FAFAFA
 st.markdown("""
 <style>
-.stApp { background-color: #f5f7fa !important; color: #1e293b !important; }
-.main .block-container { color: #1e293b !important; }
+/* ── Global reset & base ─────────────────────────────── */
+.stApp {
+    background-color: #FFFFFF !important;
+    color: #333333 !important;
+    font-family: 'Harding', 'Georgia', 'Times New Roman', serif;
+}
+.main .block-container { color: #333333 !important; max-width: 1100px; }
 [data-testid="stMarkdownContainer"] p,
-[data-testid="stMarkdownContainer"] li,
+[data-testid="stMarkdownContainer"] li  { color: #333333 !important; font-size: 0.9rem; line-height: 1.65; }
 [data-testid="stMarkdownContainer"] h1,
 [data-testid="stMarkdownContainer"] h2,
-[data-testid="stMarkdownContainer"] h3 { color: #1e293b !important; }
-.stSelectbox label, .stSlider label, .stRadio label { color: #1e293b !important; }
+[data-testid="stMarkdownContainer"] h3  { color: #1B2A4A !important; font-family: Georgia, serif; }
+.stSelectbox label, .stSlider label, .stRadio label { color: #333333 !important; font-size: 0.82rem; }
+.stTabs [data-baseweb="tab"] { font-family: Arial, sans-serif; font-size: 0.85rem; color: #555; }
+.stTabs [aria-selected="true"] { color: #1B2A4A !important; font-weight: 600; border-bottom: 2px solid #E84C22 !important; }
 
-.hero-container {
-    background: linear-gradient(120deg, #1565c0 0%, #1976d2 55%, #0288d1 100%);
-    border-radius: 14px; padding: 2rem 2.6rem; margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(21,101,192,0.22);
+/* ── Nature-style top banner ─────────────────────────── */
+.nature-banner {
+    background-color: #1B2A4A;
+    padding: 0.55rem 2.4rem;
+    margin-bottom: 0;
+    display: flex; align-items: center; gap: 1rem;
 }
-.hero-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35);
-    color: #e3f2fd; font-size: 0.72rem; font-weight: 600;
-    padding: 3px 12px; border-radius: 20px; margin-bottom: 0.7rem;
-    letter-spacing: 0.8px; text-transform: uppercase;
+.nature-banner-wordmark {
+    font-family: Georgia, serif;
+    font-size: 1.45rem; font-weight: 700; font-style: italic;
+    color: #FFFFFF; letter-spacing: 0.5px;
 }
-.hero-title   { color: #fff; font-size: 1.65rem; font-weight: 700; margin: 0 0 0.45rem; line-height: 1.3; }
-.hero-subtitle{ color: #bbdefb; font-size: 0.9rem; margin: 0; line-height: 1.6; }
+.nature-banner-tag {
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem; font-weight: 400; color: rgba(255,255,255,0.65);
+    letter-spacing: 1.2px; text-transform: uppercase; margin-top: 2px;
+}
 
-.metric-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin: 0.8rem 0 0.4rem; }
-.metric-card {
-    background: #fff; border-radius: 12px; padding: 1.2rem 1.4rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-left: 5px solid #1976d2;
+/* ── Article header (below banner) ──────────────────── */
+.article-header {
+    border-top: 3px solid #E84C22;
+    background: #FAFAFA;
+    padding: 1.6rem 2.4rem 1.4rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #D5D5D5;
 }
-.metric-card.success { border-left-color: #2e7d32; }
-.metric-card.warning { border-left-color: #e65100; }
-.metric-card.danger  { border-left-color: #c62828; }
-.metric-icon  { font-size: 1.3rem; margin-bottom: 0.25rem; display: block; }
-.metric-label { font-size: 0.72rem; font-weight: 600; color: #546e7a; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 0.25rem; }
-.metric-value { font-size: 1.9rem; font-weight: 700; color: #1565c0; line-height: 1; }
-.metric-card.success .metric-value { color: #2e7d32; }
-.metric-card.warning .metric-value { color: #e65100; }
-.metric-card.danger  .metric-value { color: #c62828; }
-.metric-status {
-    display: inline-block; font-size: 0.68rem; font-weight: 600;
-    padding: 2px 9px; border-radius: 20px; margin-top: 0.4rem;
-    background: #e3f2fd; color: #1565c0;
+.article-type {
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem; font-weight: 700;
+    color: #E84C22; letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 0.55rem;
 }
-.metric-card.danger .metric-status { background: #ffebee; color: #c62828; }
+.article-title {
+    font-family: Georgia, serif;
+    font-size: 1.65rem; font-weight: 700; color: #1B2A4A;
+    margin: 0 0 0.55rem; line-height: 1.3;
+}
+.article-subtitle {
+    font-family: Arial, sans-serif;
+    font-size: 0.88rem; color: #555555; line-height: 1.6; margin: 0;
+}
+.article-meta {
+    margin-top: 0.9rem;
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem; color: #888; border-top: 1px solid #E5E5E5;
+    padding-top: 0.6rem;
+}
 
+/* ── Section headings ────────────────────────────────── */
 .section-header {
-    margin: 1.6rem 0 0.7rem; padding-bottom: 0.45rem;
-    border-bottom: 2px solid #e0e7ef;
-    color: #1565c0; font-size: 1.0rem; font-weight: 600;
+    font-family: Georgia, serif;
+    font-size: 1.05rem; font-weight: 700; color: #1B2A4A;
+    margin: 1.8rem 0 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #D5D5D5;
 }
 
-/* 灌区信息卡 */
+/* ── Key Numbers (metric cards) ─────────────────────── */
+.metric-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin: 1rem 0 0.6rem; border: 1px solid #D5D5D5; background: #D5D5D5; }
+.metric-card {
+    background: #FFFFFF;
+    padding: 1.2rem 1.4rem 1rem;
+    border-left: 3px solid transparent;
+    position: relative;
+}
+.metric-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: #D5D5D5;
+}
+.metric-card.primary::before { background: #1B2A4A; }
+.metric-card.success::before { background: #2E7D32; }
+.metric-card.warning::before { background: #E84C22; }
+.metric-card.danger::before  { background: #C0392B; }
+.metric-label {
+    font-family: Arial, sans-serif;
+    font-size: 0.68rem; font-weight: 700; color: #777777;
+    text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 0.4rem;
+}
+.metric-value {
+    font-family: Georgia, serif;
+    font-size: 2.1rem; font-weight: 700; color: #1B2A4A; line-height: 1;
+}
+.metric-card.warning .metric-value { color: #E84C22; }
+.metric-card.danger  .metric-value { color: #C0392B; }
+.metric-card.success .metric-value { color: #2E7D32; }
+.metric-status {
+    display: inline-block; margin-top: 0.45rem;
+    font-family: Arial, sans-serif;
+    font-size: 0.67rem; font-weight: 600; color: #555;
+    background: #F0F0F0; border: 1px solid #D5D5D5;
+    padding: 2px 8px; border-radius: 2px;
+}
+.metric-card.danger .metric-status { background: #FDECEA; border-color: #F5C6CB; color: #C0392B; }
+
+/* ── Region info card ────────────────────────────────── */
 .region-card {
-    background: #fff; border-radius: 12px; padding: 1.4rem 1.6rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-top: 4px solid #1976d2;
-    margin-top: 0.5rem;
+    background: #FAFAFA; border: 1px solid #D5D5D5;
+    border-top: 3px solid #1B2A4A;
+    padding: 1.3rem 1.5rem; margin-top: 0.8rem;
 }
-.region-name  { font-size: 1.1rem; font-weight: 700; color: #1565c0; margin-bottom: 0.5rem; }
-.region-desc  { font-size: 0.85rem; color: #37474f; line-height: 1.6; margin-bottom: 0.9rem; }
-.param-table  { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+.region-name {
+    font-family: Georgia, serif;
+    font-size: 1.05rem; font-weight: 700; color: #1B2A4A; margin-bottom: 0.4rem;
+}
+.region-desc {
+    font-family: Arial, sans-serif;
+    font-size: 0.83rem; color: #444; line-height: 1.65; margin-bottom: 1rem;
+}
+.param-table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 0.81rem; }
 .param-table th {
-    background: #e3f2fd; color: #1565c0; font-weight: 600;
-    padding: 5px 10px; text-align: left; border-radius: 4px;
+    background: #1B2A4A; color: #FFFFFF; font-weight: 600;
+    padding: 6px 10px; text-align: left; font-size: 0.78rem; letter-spacing: 0.3px;
 }
-.param-table td { padding: 5px 10px; color: #263238; border-bottom: 1px solid #f0f4f8; }
+.param-table td { padding: 6px 10px; color: #333; border-bottom: 1px solid #EBEBEB; }
+.param-table tr:nth-child(even) td { background: #F7F7F7; }
 .param-table tr:last-child td { border-bottom: none; }
 
+/* ── Error box ───────────────────────────────────────── */
 .error-card {
-    background: #ffebee; border-left: 5px solid #c62828; border-radius: 10px;
-    padding: 1rem 1.4rem; color: #b71c1c; font-weight: 500;
+    background: #FFF8F7; border: 1px solid #F5C6CB; border-left: 3px solid #C0392B;
+    padding: 0.9rem 1.2rem; color: #922B21;
+    font-family: Arial, sans-serif; font-size: 0.85rem;
 }
+
+/* ── Sidebar ─────────────────────────────────────────── */
+[data-testid="stSidebar"] { background: #FAFAFA !important; border-right: 1px solid #D5D5D5; }
+[data-testid="stSidebar"] .stRadio label,
+[data-testid="stSidebar"] .stSelectbox label,
+[data-testid="stSidebar"] .stSlider label { color: #333333 !important; font-size: 0.8rem !important; }
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 { color: #1B2A4A !important; font-family: Georgia, serif !important; font-size: 0.92rem !important; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p { color: #444 !important; font-size: 0.8rem !important; }
 
 #MainMenu {visibility:hidden;} footer {visibility:hidden;} header {visibility:hidden;}
 </style>
@@ -338,12 +417,23 @@ with st.sidebar.expander(t["expander_title"][lang], expanded=False):
 # ====== 9. 计算 ======
 D_unc, D_opt = calc_D_star(E0, SI, Sg, dc, Ky, b, EC_prime)
 
-# ====== 10. Hero ======
+# ====== 10. Nature-style header ======
 st.markdown(f"""
-<div class="hero-container">
-  <div class="hero-badge">🔬 {t['badge'][lang]}</div>
-  <h1 class="hero-title">💧 {t['title'][lang]}</h1>
-  <p class="hero-subtitle">{t['desc'][lang]}</p>
+<div class="nature-banner">
+  <div>
+    <div class="nature-banner-wordmark">nature</div>
+    <div class="nature-banner-tag">Water Resources &amp; Hydrology</div>
+  </div>
+</div>
+<div class="article-header">
+  <div class="article-type">{'研究工具 · Research Tool' if lang == 'cn' else 'Research Tool · Hydrology'}</div>
+  <div class="article-title">{t['title'][lang]}</div>
+  <p class="article-subtitle">{t['desc'][lang]}</p>
+  <div class="article-meta">
+    {'模型方法' if lang == 'cn' else 'Model'}: {t['badge'][lang]} &nbsp;·&nbsp;
+    {'参数来源' if lang == 'cn' else 'Data'}: {'文献综合 / Literature synthesis' if lang == 'cn' else 'Literature synthesis'} &nbsp;·&nbsp;
+    {'适用区域' if lang == 'cn' else 'Coverage'}: {'全球干旱浅埋灌区' if lang == 'cn' else 'Global arid shallow-aquifer irrigation districts'}
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -378,9 +468,9 @@ with main_tab1:
             f"<i>{d[:55]}…</i>"
         )
     marker_colors = [
-        "#e74c3c" if k == sel_r else "#1976d2" for k in REGION_KEYS
+        "#E84C22" if k == sel_r else "#1B2A4A" for k in REGION_KEYS
     ]
-    marker_sizes = [18 if k == sel_r else 12 for k in REGION_KEYS]
+    marker_sizes = [16 if k == sel_r else 10 for k in REGION_KEYS]
 
     fig_map = go.Figure(go.Scattergeo(
         lat=lats, lon=lons,
@@ -403,12 +493,12 @@ with main_tab1:
         height=440, margin=dict(l=0, r=0, t=10, b=0),
         paper_bgcolor="rgba(0,0,0,0)",
         geo=dict(
-            showland=True, landcolor="#eef2f7",
-            showocean=True, oceancolor="#dbeafe",
-            showlakes=True, lakecolor="#bfdbfe",
-            showcoastlines=True, coastlinecolor="#94a3b8",
+            showland=True, landcolor="#F0EDE8",
+            showocean=True, oceancolor="#D6E4EF",
+            showlakes=True, lakecolor="#C4D9E8",
+            showcoastlines=True, coastlinecolor="#AAAAAA",
             showframe=False,
-            showcountries=True, countrycolor="#cbd5e1",
+            showcountries=True, countrycolor="#BBBBBB",
             projection_type="natural earth",
         ),
     )
@@ -516,52 +606,50 @@ with main_tab2:
 
     if D_opt is not None:
         triggered = (abs(D_opt - dc) < 1e-9)
-        card1_cls = "metric-card danger" if triggered else "metric-card"
+        card1_cls = "metric-card danger" if triggered else "metric-card primary"
         status_label = t["status_trigger"][lang] if triggered else t["status_unconstrained"][lang]
         st.markdown(f"""
         <div class="metric-grid">
           <div class="{card1_cls}">
-            <span class="metric-icon">🎯</span>
             <div class="metric-label">{t['metric_D_opt'][lang]}</div>
             <div class="metric-value">{D_opt:.2f} m</div>
             <span class="metric-status">{status_label}</span>
           </div>
           <div class="metric-card success">
-            <span class="metric-icon">📐</span>
             <div class="metric-label">{t['metric_D_unc'][lang]}</div>
             <div class="metric-value">{D_unc:.2f} m</div>
           </div>
           <div class="metric-card warning">
-            <span class="metric-icon">🌿</span>
             <div class="metric-label">{t['metric_dc'][lang]}</div>
             <div class="metric-value">{dc:.2f} m</div>
           </div>
         </div>
         """, unsafe_allow_html=True)
 
-        # 横向对比图
-        BLUE = "#1565c0"; GREEN = "#2e7d32"; ORANGE = "#e65100"
+        # 横向对比图 — Nature 配色
+        NAV = "#1B2A4A"; ORG = "#E84C22"; GRY = "#888888"
         fig_bar = go.Figure()
         bar_items = [
-            ("dc",    dc,    ORANGE, f"dc = {dc:.2f} m"),
-            ("D_unc", D_unc, GREEN,  ("无约束" if lang=="cn" else "Unc.") + f" = {D_unc:.2f} m"),
-            ("D*",    D_opt, BLUE,   f"D* = {D_opt:.2f} m"),
+            ("dc",    dc,    GRY, f"dc = {dc:.2f} m"),
+            ("D_unc", D_unc, ORG, ("无约束" if lang=="cn" else "Unc.") + f" = {D_unc:.2f} m"),
+            ("D*",    D_opt, NAV, f"D* = {D_opt:.2f} m"),
         ]
         for _, val, col, lbl in bar_items:
             fig_bar.add_trace(go.Bar(
                 x=[val], y=[lbl], orientation="h",
                 marker_color=col, marker_line_width=0,
                 text=[f"{val:.2f} m"], textposition="inside",
-                textfont=dict(color="white", size=13),
+                textfont=dict(color="white", size=12, family="Arial"),
                 hovertemplate=f"<b>{lbl}</b><extra></extra>",
                 showlegend=False,
             ))
         x_ax = "深度 (m)" if lang == "cn" else "Depth (m)"
         fig_bar.update_layout(
-            height=155, margin=dict(l=10, r=20, t=8, b=8),
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="white", barmode="overlay",
-            xaxis=dict(title=x_ax, showgrid=False, zeroline=False, tickfont=dict(size=11)),
-            yaxis=dict(showgrid=False, tickfont=dict(size=11)),
+            height=148, margin=dict(l=10, r=20, t=8, b=8),
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#FAFAFA", barmode="overlay",
+            xaxis=dict(title=x_ax, showgrid=True, gridcolor="#E5E5E5", zeroline=False,
+                       tickfont=dict(size=11, family="Arial"), title_font=dict(family="Arial", size=11)),
+            yaxis=dict(showgrid=False, tickfont=dict(size=11, family="Arial")),
         )
         st.plotly_chart(fig_bar, use_container_width=True, config={"displayModeBar": False})
 
@@ -582,36 +670,45 @@ with main_tab2:
     st.markdown("---")
     st.markdown(f'<div class="section-header">📈 {t["sens_header"][lang]}</div>', unsafe_allow_html=True)
 
-    LCOL = "#1565c0"; GCOL = "#7fb3d3"; RCOL = "#e53935"
+    # Nature figure style: navy main, orange accent, light gray grid
+    NAT_NAV = "#1B2A4A"; NAT_ORG = "#E84C22"; NAT_GRY = "#AAAAAA"
+    AX_FONT = dict(family="Arial", size=11, color="#333333")
+    GRID_C  = "#E8E8E8"
 
     def sens_chart(x_arr, y_opt, y_unc, x_label, dc_val, cur_x, cur_y):
         fig = go.Figure()
         fig.add_trace(go.Scatter(
             x=x_arr, y=y_unc, name="D_unc" if lang=="en" else "无约束埋深",
-            line=dict(color=GCOL, width=1.5, dash="dot"),
+            line=dict(color=NAT_GRY, width=1.5, dash="dot"),
             hovertemplate=f"{x_label}: %{{x:.1f}}<br>D_unc=%{{y:.2f}} m<extra></extra>",
         ))
-        fig.add_hline(y=dc_val, line=dict(color=RCOL, width=1.5, dash="dash"),
-                      annotation_text=f"dc={dc_val:.2f} m",
-                      annotation_font=dict(color=RCOL, size=10))
+        fig.add_hline(y=dc_val, line=dict(color=NAT_ORG, width=1.5, dash="dash"),
+                      annotation_text=f"d_c = {dc_val:.2f} m",
+                      annotation_font=dict(color=NAT_ORG, size=10, family="Arial"))
         fig.add_trace(go.Scatter(
             x=x_arr, y=y_opt, name="D*",
-            line=dict(color=LCOL, width=2.5),
-            fill="tozeroy", fillcolor="rgba(21,101,192,0.07)",
+            line=dict(color=NAT_NAV, width=2.0),
+            fill="tozeroy", fillcolor="rgba(27,42,74,0.06)",
             hovertemplate=f"{x_label}: %{{x:.1f}}<br>D*=%{{y:.2f}} m<extra></extra>",
         ))
         if cur_y is not None:
             fig.add_trace(go.Scatter(
                 x=[cur_x], y=[cur_y], mode="markers", showlegend=False,
-                marker=dict(color=LCOL, size=10, line=dict(color="white", width=2)),
+                marker=dict(color=NAT_ORG, size=9, symbol="circle",
+                            line=dict(color="white", width=1.5)),
                 hovertemplate=f"{x_label}=%{{x:.2f}}, D*=%{{y:.2f}} m<extra></extra>",
             ))
         fig.update_layout(
-            height=320, margin=dict(l=10, r=20, t=18, b=8),
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="white",
-            legend=dict(orientation="h", y=1.05, x=1, xanchor="right", font=dict(size=11)),
-            xaxis=dict(title=x_label, showgrid=True, gridcolor="#eef2f7", tickfont=dict(size=11)),
-            yaxis=dict(title="D* (m)", showgrid=True, gridcolor="#eef2f7", tickfont=dict(size=11)),
+            height=300, margin=dict(l=10, r=20, t=20, b=8),
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#FFFFFF",
+            legend=dict(orientation="h", y=1.06, x=1, xanchor="right",
+                        font=dict(size=10, family="Arial", color="#333")),
+            xaxis=dict(title=x_label, showgrid=True, gridcolor=GRID_C,
+                       zeroline=False, showline=True, linecolor="#AAAAAA",
+                       tickfont=AX_FONT, title_font=AX_FONT),
+            yaxis=dict(title="D* (m)", showgrid=True, gridcolor=GRID_C,
+                       zeroline=False, showline=True, linecolor="#AAAAAA",
+                       tickfont=AX_FONT, title_font=AX_FONT),
             hovermode="x unified",
         )
         return fig

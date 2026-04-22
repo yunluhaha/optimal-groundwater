@@ -291,9 +291,6 @@ st.markdown("""
 
 #MainMenu {visibility:hidden;}
 footer {visibility:hidden;}
-/* 隐藏 header 内的 deploy 按钮，但保留侧边栏折叠按钮 */
-header [data-testid="stToolbar"] {visibility:hidden;}
-header [data-testid="stDecoration"] {display:none;}
 </style>
 """, unsafe_allow_html=True)
 

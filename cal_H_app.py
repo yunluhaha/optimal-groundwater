@@ -529,22 +529,20 @@ def map_tab_fragment(lang):
         config={"displayModeBar": False, "scrollZoom": False},
     )
 
-    # 处理点击 → 更新选中灌区，同步下拉框 session state
+    # 处理点击 → 更新选中灌区
     custom_label = t["sel_custom"][lang]
     dd_options = [custom_label] + [REGIONS[k]["name_" + lang] for k in REGION_KEYS]
 
     if map_event and map_event.selection and map_event.selection.point_indices:
         clicked_idx = map_event.selection.point_indices[0]
         if 0 <= clicked_idx < len(REGION_KEYS):
-            new_key = REGION_KEYS[clicked_idx]
-            st.session_state.sel_region = new_key
-            sel_r = new_key
-            # 同步 selectbox widget 状态，保证下拉框和地图一致
-            st.session_state.region_dd = REGIONS[new_key]["name_" + lang]
+            st.session_state.sel_region = REGION_KEYS[clicked_idx]
+            sel_r = st.session_state.sel_region
 
-    # 下拉框（selectbox 变化自动触发 fragment 重跑）
+    # 下拉框：用 index= 驱动，始终与 sel_r 对齐，无 key 干扰
     current_sel_name = REGIONS[sel_r]["name_" + lang] if sel_r else custom_label
-    chosen = st.selectbox(t["sel_label"][lang], dd_options, key="region_dd")
+    dd_idx = dd_options.index(current_sel_name) if current_sel_name in dd_options else 0
+    chosen = st.selectbox(t["sel_label"][lang], dd_options, index=dd_idx)
     if chosen != custom_label:
         for k in REGION_KEYS:
             if REGIONS[k]["name_" + lang] == chosen:
@@ -590,16 +588,22 @@ def map_tab_fragment(lang):
                 ("Root Thickness hv (m)",            f"{hvr[0]}–{hvr[1]}", f"{hvd}"),
                 ("Typical Crop", "—", cr),
             ]
+        TH = 'style="background:#2d2a24;color:#e8d8b8;font-weight:600;padding:7px 12px;text-align:left;font-size:0.75rem;letter-spacing:0.3px;"'
+        TD = 'style="padding:7px 12px;color:#3d3530;border-bottom:1px solid #ede5d8;"'
+        TD_ALT = 'style="padding:7px 12px;color:#3d3530;border-bottom:1px solid #ede5d8;background:#f5f0e8;"'
+        TD_B = 'style="padding:7px 12px;color:#3d3530;border-bottom:1px solid #ede5d8;"'
         rows_html = "".join(
-            f"<tr><td>{p}</td><td>{rng}</td><td><b>{dv}</b></td></tr>"
-            for p, rng, dv in rows
+            f"<tr><td {TD if i%2==0 else TD_ALT}>{p}</td>"
+            f"<td {TD if i%2==0 else TD_ALT}>{rng}</td>"
+            f"<td {TD_B if i%2==0 else TD_ALT}><b style='color:#b87840'>{dv}</b></td></tr>"
+            for i, (p, rng, dv) in enumerate(rows)
         )
         st.markdown(f"""
         <div class="region-card">
           <div class="region-name"><span class="region-dot"></span>{name}</div>
           <div class="region-desc">{desc}</div>
-          <table class="param-table">
-            <tr><th>{h[0]}</th><th>{h[1]}</th><th>{h[2]}</th></tr>
+          <table class="param-table" style="width:100%;border-collapse:collapse;font-size:0.81rem;border-radius:8px;overflow:hidden;">
+            <tr><th {TH}>{h[0]}</th><th {TH}>{h[1]}</th><th {TH}>{h[2]}</th></tr>
             {rows_html}
           </table>
         </div>

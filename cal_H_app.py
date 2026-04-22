@@ -214,20 +214,20 @@ st.markdown("""
 /* ── Hero ───────────────────────────────────────── */
 .hero-container {
     background: linear-gradient(135deg, #c8d4d8 0%, #b8c8ce 55%, #a8bcc4 100%);
-    border-radius: 8px; padding: 0.45rem 1.1rem;
-    margin-bottom: 0.8rem;
-    box-shadow: 0 2px 8px rgba(168,188,196,0.30);
-    display: flex; align-items: center; gap: 0.7rem;
-    border-left: 3px solid #ffffff;
+    border-radius: 6px; padding: 0.28rem 0.9rem;
+    margin-bottom: 0.6rem;
+    box-shadow: 0 1px 5px rgba(168,188,196,0.25);
+    display: flex; align-items: center; gap: 0.5rem;
+    border-left: 2px solid #ffffff;
 }
-.hero-icon { font-size: 1.1rem; line-height: 1; flex-shrink: 0; }
+.hero-icon { font-size: 0.85rem; line-height: 1; flex-shrink: 0; }
 .hero-content { flex: 1; min-width: 0; }
 .hero-badge { display: none; }
 .hero-title {
     color: #0f1e24; font-size: 0.4rem; font-weight: 700;
-    margin: 0 0 0.08rem; line-height: 1.3;
+    margin: 0; line-height: 1.3;
 }
-.hero-subtitle { color: #1a3040; font-size: 0.73rem; margin: 0; line-height: 1.4; }
+.hero-subtitle { color: #1a3040; font-size: 0.65rem; margin: 0; line-height: 1.35; }
 
 /* ── Section header ─────────────────────────────── */
 .section-header {

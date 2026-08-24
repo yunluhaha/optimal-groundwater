@@ -143,6 +143,11 @@ for k, v in _defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
+# 保活：切换语言时滑块标签改变会被 Streamlit 视为新控件，
+# 每次运行前自赋值一遍，确保 keyed 状态不被清理（否则滑块会重置到最小值）
+for k in ("E0_s", "SI_s", "Sg_s", "hv_s", "I_s", "mu_s"):
+    st.session_state[k] = st.session_state[k]
+
 # 在 widgets 渲染前应用灌区参数
 if st.session_state._do_apply and st.session_state.sel_region:
     r = REGIONS[st.session_state.sel_region]
@@ -158,160 +163,192 @@ if st.session_state._do_apply and st.session_state.sel_region:
 # ====== 4. 页面配置 ======
 st.set_page_config(
     page_title="最优地下水埋深计算器 | Optimal Groundwater Depth",
+    page_icon="💧",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
 # ====== 5. CSS ======
-# 配色：深炭灰#2d2a24 · 沙尘蓝灰#5c8a96 · 赤陶棕#b87840 · 深朱红#a8212e · 琥珀金#c4984a · 暖羊皮纸#f5f0e8
+# 主题「从地表到含水层」：墨青#14232a · 深潜青#0c2f3a · 含水层青#12808f · 亮青#46c8dc · 沙壤#c98a3b · 赤陶#b3462e · 云白#f6fafb
 st.markdown("""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
 /* ── Base ───────────────────────────────────────── */
-.stApp { background-color: #f5f0e8 !important; color: #2d2a24 !important; }
-.main .block-container { color: #2d2a24 !important; padding-top: 1rem !important; }
+.stApp { background: linear-gradient(180deg, #f6fafb 0%, #edf3f5 100%) !important; color: #14232a !important; }
+.stApp :is(p, li, h1, h2, h3, h4, h5, label, button, input, textarea, td, th, span, div):not(.katex):not(.katex *) {
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}
+.main .block-container { color: #14232a !important; padding-top: 1rem !important; }
 [data-testid="stMarkdownContainer"] p,
-[data-testid="stMarkdownContainer"] li  { color: #3d3530 !important; font-size: 1.02rem; }
+[data-testid="stMarkdownContainer"] li  { color: #31454e !important; font-size: 1.0rem; }
 [data-testid="stMarkdownContainer"] h1,
 [data-testid="stMarkdownContainer"] h2,
-[data-testid="stMarkdownContainer"] h3  { color: #2d2a24 !important; }
-.stSelectbox label, .stSlider label, .stRadio label { color: #4a3f34 !important; font-size: 0.97rem !important; }
+[data-testid="stMarkdownContainer"] h3  { color: #14232a !important; }
+.stSelectbox label, .stSlider label, .stRadio label { color: #31454e !important; font-size: 0.95rem !important; }
 
-/* ── Sidebar ────────────────────────────────────── */
+/* ── 主区提示框 / 展开框 ────────────────────────── */
+[data-testid="stAlert"] { background: #e9f5f7 !important; border: 1px solid #cfe6ea !important; border-radius: 10px !important; }
+[data-testid="stAlert"] p { color: #0f5a6b !important; }
+[data-testid="stExpander"] { background: #ffffff; border: 1px solid #e2ecef !important; border-radius: 12px !important; }
+
+/* ── Sidebar：深层含水层 ────────────────────────── */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #c8d4d8 0%, #b8c8ce 60%, #a8bcc4 100%) !important;
+    background: linear-gradient(180deg, #0c2f3a 0%, #0e4150 48%, #0d5568 100%) !important;
 }
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] .stSlider label,
-[data-testid="stSidebar"] .stRadio label  { color: #1a2e36 !important; font-size: 0.95rem !important; }
+[data-testid="stSidebar"] .stRadio label  { color: #d8ecf0 !important; font-size: 0.93rem !important; }
 [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 { color: #0f1e24 !important; font-size: 1.08rem !important; letter-spacing: 0.2px; }
-[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.40) !important; }
+[data-testid="stSidebar"] h3 { color: #eaf6f8 !important; font-size: 1.02rem !important; letter-spacing: 0.3px; }
+[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.14) !important; }
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] li,
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong { color: #1a2e36 !important; font-size: 0.95rem !important; }
-[data-testid="stSidebar"] .stRadio [data-testid="stMarkdownContainer"] p { color: #1a2e36 !important; }
-[data-testid="stSidebar"] .stInfo  { background: rgba(255,255,255,0.25) !important; border: 1px solid rgba(255,255,255,0.45) !important; border-radius: 8px !important; }
-[data-testid="stSidebar"] .stInfo p { color: #0f1e24 !important; }
-[data-testid="stSidebar"] .stExpander { background: rgba(255,255,255,0.15) !important; border: 1px solid rgba(255,255,255,0.30) !important; border-radius: 8px !important; }
-[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] { background: rgba(255,255,255,0.90) !important; border-radius: 6px !important; }
-[data-testid="stSidebar"] .stSelectbox [data-baseweb="select"] * { color: #1a2e36 !important; }
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong { color: #d8ecf0 !important; font-size: 0.92rem !important; }
+[data-testid="stSidebar"] .stRadio [data-testid="stMarkdownContainer"] p { color: #eaf6f8 !important; }
+[data-testid="stSidebar"] table, [data-testid="stSidebar"] th,
+[data-testid="stSidebar"] td { color: #d8ecf0 !important; border-color: rgba(255,255,255,0.16) !important; }
+[data-testid="stSidebar"] [data-testid="stAlert"] { background: rgba(255,255,255,0.07) !important; border: 1px solid rgba(255,255,255,0.16) !important; border-radius: 10px !important; }
+[data-testid="stSidebar"] [data-testid="stAlert"] p { color: #dff0f3 !important; }
+[data-testid="stSidebar"] code { color: #7fdceb !important; background: rgba(127,220,235,0.12) !important; border-radius: 4px; }
+[data-testid="stSidebar"] [data-testid="stExpander"] { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.14) !important; border-radius: 10px !important; }
+[data-testid="stSidebar"] [data-testid="stExpander"] summary { color: #d8ecf0 !important; }
+[data-testid="stSidebar"] [data-baseweb="select"] { background: rgba(255,255,255,0.95) !important; border-radius: 8px !important; }
+[data-testid="stSidebar"] [data-baseweb="select"] * { color: #14313c !important; }
+[data-testid="stSidebar"] [data-testid="stSliderThumbValue"] { color: #7fdceb !important; }
+[data-testid="stSidebar"] [data-testid^="stSliderTickBar"] { color: #9fc4cc !important; }
 
 /* ── Tabs ───────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {
-    background: #faf7f0; border-radius: 10px;
+    background: #ffffff; border: 1px solid #e2ecef; border-radius: 12px;
     padding: 4px 6px; gap: 4px;
-    box-shadow: 0 1px 4px rgba(45,42,36,0.10);
+    box-shadow: 0 1px 6px rgba(12,47,58,0.06);
 }
 .stTabs [data-baseweb="tab"] {
-    border-radius: 7px; padding: 6px 18px;
-    font-size: 1.0rem; font-weight: 500; color: #7a6a58;
+    border-radius: 9px; padding: 6px 18px;
+    font-size: 0.98rem; font-weight: 600; color: #5b7681;
 }
 .stTabs [aria-selected="true"] {
-    background: #5c8a96 !important; color: #ffffff !important;
-    box-shadow: 0 2px 8px rgba(92,138,150,0.40);
+    background: linear-gradient(135deg, #12808f, #0f6b7d) !important; color: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(18,128,143,0.35);
 }
+.stTabs [aria-selected="true"] [data-testid="stMarkdownContainer"] p { color: #ffffff !important; }
+
+/* 顶部装饰条改为「地表→含水层」色带 */
+[data-testid="stDecoration"] { background-image: linear-gradient(90deg, #c98a3b, #46c8dc, #12808f) !important; }
 
 /* ── Hero ───────────────────────────────────────── */
 .hero-container {
-    background: linear-gradient(135deg, #c8d4d8 0%, #b8c8ce 55%, #a8bcc4 100%);
-    border-radius: 3px; padding: 0.14rem 0.45rem;
-    margin-bottom: 0.5rem;
-    box-shadow: 0 1px 3px rgba(168,188,196,0.20);
-    display: flex; align-items: center; gap: 0.25rem;
-    border-left: 1px solid #ffffff;
+    position: relative; overflow: hidden;
+    background: linear-gradient(120deg, #0c2f3a 0%, #0f4a5a 55%, #12808f 100%);
+    border-radius: 14px; padding: 0.95rem 1.4rem 1.05rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 24px rgba(12,47,58,0.18);
+}
+.hero-container::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 420px 150px at 88% 25%, rgba(70,200,220,0.30), transparent 70%),
+      radial-gradient(ellipse 320px 130px at 68% 95%, rgba(201,138,59,0.16), transparent 70%);
+}
+.hero-container::after {   /* 地表→含水层色带 */
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+    background: linear-gradient(90deg, #c98a3b 0%, #d9b36a 32%, #46c8dc 68%, #12808f 100%);
 }
 .hero-icon { display: none; }
-.hero-content { flex: 1; min-width: 0; }
-.hero-badge { display: none; }
-.hero-title {
-    color: #0f1e24; font-size: 2rem; font-weight: 700;
-    margin: 0; line-height: 1.3;
+.hero-content { position: relative; }
+.hero-badge {
+    display: inline-block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.8px;
+    color: #7fdceb; background: rgba(127,220,235,0.12);
+    border: 1px solid rgba(127,220,235,0.35); border-radius: 999px;
+    padding: 2px 10px; margin-bottom: 0.35rem;
 }
-.hero-subtitle { color: #1a3040; font-size: 0.32rem; margin: 0; line-height: 1.35; }
+.hero-title {
+    color: #f4fbfc; font-size: 1.55rem; font-weight: 800;
+    margin: 0; line-height: 1.3; letter-spacing: 0.2px;
+}
+.hero-container .hero-subtitle { color: rgba(232,246,248,0.80) !important; font-size: 0.85rem !important; margin: 0.3rem 0 0; line-height: 1.5; }
 
 /* ── Section header ─────────────────────────────── */
 .section-header {
     display: flex; align-items: center; gap: 0.5rem;
     margin: 1.5rem 0 0.8rem; padding-bottom: 0.5rem;
-    border-bottom: 2px solid #b8d0d8;
-    color: #7aaab8; font-size: 1.1rem; font-weight: 600;
+    border-bottom: 1px solid #dce8ec;
+    color: #0f5a6b; font-size: 1.08rem; font-weight: 700;
 }
 .section-header::before {
     content: ''; display: inline-block;
     width: 4px; height: 18px; border-radius: 3px;
-    background: #7aaab8; flex-shrink: 0;
+    background: linear-gradient(180deg, #46c8dc, #12808f); flex-shrink: 0;
 }
 
 /* ── Metric cards ───────────────────────────────── */
 .metric-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.9rem; margin: 0.9rem 0 0.5rem; }
 .metric-card {
-    background: #faf7f0; border-radius: 12px; padding: 1.1rem 1.3rem;
-    box-shadow: 0 2px 10px rgba(45,42,36,0.08); border-left: 4px solid #5c8a96;
-    transition: box-shadow 0.2s;
+    background: #ffffff; border: 1px solid #e2ecef; border-radius: 14px; padding: 1.1rem 1.3rem;
+    box-shadow: 0 2px 12px rgba(12,47,58,0.06); border-left: 4px solid #12808f;
+    transition: transform 0.15s, box-shadow 0.15s;
 }
-.metric-card:hover { box-shadow: 0 4px 18px rgba(45,42,36,0.13); }
-.metric-card.success { border-left-color: #5c8a96; }
-.metric-card.warning { border-left-color: #c4984a; }
-.metric-card.danger  { border-left-color: #a8212e; }
-.metric-icon  { font-size: 1.3rem; margin-bottom: 0.2rem; display: block; opacity: 0.85; }
+.metric-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(12,47,58,0.11); }
+.metric-card.success { border-left-color: #12808f; }
+.metric-card.warning { border-left-color: #c98a3b; }
+.metric-card.danger  { border-left-color: #b3462e; }
+.metric-icon  { font-size: 1.3rem; margin-bottom: 0.2rem; display: block; opacity: 0.9; }
 .metric-label {
-    font-size: 0.82rem; font-weight: 700; color: #7a6a58;
-    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.3rem;
+    font-size: 0.78rem; font-weight: 700; color: #5b7681;
+    letter-spacing: 0.6px; margin-bottom: 0.3rem;
 }
-.metric-value { font-size: 2.1rem; font-weight: 700; color: #5c8a96; line-height: 1; }
-.metric-card.success .metric-value { color: #5c8a96; }
-.metric-card.warning .metric-value { color: #b87840; }
-.metric-card.danger  .metric-value { color: #a8212e; }
+.metric-value { font-size: 2.1rem; font-weight: 800; color: #0f6b7d; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.metric-card.success .metric-value { color: #0f6b7d; }
+.metric-card.warning .metric-value { color: #a4712c; }
+.metric-card.danger  .metric-value { color: #b3462e; }
 .metric-status {
     display: inline-block; font-size: 0.65rem; font-weight: 600;
     padding: 2px 8px; border-radius: 20px; margin-top: 0.4rem;
-    background: #edf4f6; color: #3d6e7a; border: 1px solid #b0cdd4;
+    background: #e6f4f6; color: #0f6b7d; border: 1px solid #bfe0e6;
 }
 .metric-card.danger .metric-status {
-    background: #fdf0f0; color: #a8212e; border-color: #e8b0b0;
+    background: #faece7; color: #b3462e; border-color: #ecc4b8;
 }
 
 /* ── Region card ────────────────────────────────── */
 .region-card {
-    background: #faf7f0; border-radius: 12px; padding: 1.3rem 1.5rem;
-    box-shadow: 0 2px 12px rgba(45,42,36,0.08);
-    border-top: 3px solid #b87840; margin-top: 0.8rem;
+    background: #ffffff; border: 1px solid #e2ecef; border-radius: 14px; padding: 1.3rem 1.5rem;
+    box-shadow: 0 2px 12px rgba(12,47,58,0.06);
+    border-top: 3px solid #12808f; margin-top: 0.8rem;
 }
 .region-name {
-    font-size: 1.0rem; font-weight: 700; color: #2d2a24;
+    font-size: 1.0rem; font-weight: 700; color: #14232a;
     margin-bottom: 0.45rem; display: flex; align-items: center; gap: 0.4rem;
 }
-.region-dot { width: 10px; height: 10px; border-radius: 50%; background: #a8212e; flex-shrink: 0; display: inline-block; }
-.region-desc { font-size: 0.82rem; color: #5c4a38; line-height: 1.65; margin-bottom: 0.9rem; }
-.param-table { width: 100%; border-collapse: collapse; font-size: 0.81rem; border-radius: 8px; overflow: hidden; }
-.param-table thead tr { background: #2d2a24; }
-.param-table th { color: #e8d8b8; font-weight: 600; padding: 7px 12px; text-align: left; font-size: 0.75rem; letter-spacing: 0.3px; }
-.param-table td { padding: 7px 12px; color: #3d3530; border-bottom: 1px solid #ede5d8; }
-.param-table tr:nth-child(even) td { background: #f5f0e8; }
-.param-table tr:last-child td { border-bottom: none; }
-.param-table td b { color: #b87840; }
+.region-dot { width: 10px; height: 10px; border-radius: 50%; background: #12808f; box-shadow: 0 0 0 3px rgba(18,128,143,0.18); flex-shrink: 0; display: inline-block; }
+.region-desc { font-size: 0.85rem; color: #52656d; line-height: 1.7; margin-bottom: 0.9rem; }
+.param-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; border-radius: 10px; overflow: hidden; }
 
 /* ── Error card ─────────────────────────────────── */
 .error-card {
-    background: #fdf0f0; border-left: 4px solid #a8212e; border-radius: 10px;
-    padding: 0.9rem 1.3rem; color: #a8212e; font-size: 0.88rem;
+    background: #faece7; border-left: 4px solid #b3462e; border-radius: 10px;
+    padding: 0.9rem 1.3rem; color: #9c3a24; font-size: 0.88rem;
 }
 
 /* ── Map hint caption ───────────────────────────── */
 .map-hint {
-    font-size: 0.8rem; color: #7a6a58; margin-bottom: 0.5rem;
+    font-size: 0.8rem; color: #5b7681; margin-bottom: 0.5rem;
     display: flex; align-items: center; gap: 0.4rem;
 }
 
 /* ── Primary button ─────────────────────────────── */
 .stButton > button[kind="primary"] {
-    background: #9abfc8 !important;
-    border: none !important;
-    color: #1a2e36 !important;
+    background: linear-gradient(135deg, #12808f, #0f6b7d) !important;
+    border: none !important; color: #ffffff !important;
+    font-weight: 600 !important; border-radius: 10px !important;
+    box-shadow: 0 2px 10px rgba(18,128,143,0.30) !important;
 }
 .stButton > button[kind="primary"]:hover {
-    background: #7aaab8 !important;
+    background: linear-gradient(135deg, #17a0b3, #12808f) !important;
+    box-shadow: 0 4px 14px rgba(18,128,143,0.40) !important;
 }
+.stButton > button[kind="primary"] p { color: #ffffff !important; }
 
 #MainMenu {visibility:hidden;}
 footer {visibility:hidden;}
@@ -485,7 +522,7 @@ def map_tab_fragment(lang):
             f"<i>{d[:55]}…</i>"
         )
     marker_colors = [
-        "#a8212e" if k == sel_r else "#b87840" for k in REGION_KEYS
+        "#0f6b7d" if k == sel_r else "#c98a3b" for k in REGION_KEYS
     ]
     marker_sizes = [18 if k == sel_r else 12 for k in REGION_KEYS]
 
@@ -498,7 +535,7 @@ def map_tab_fragment(lang):
             size=marker_sizes,
             color=marker_colors,
             symbol="circle",
-            line=dict(color="#f5f0e8", width=1.5),
+            line=dict(color="#ffffff", width=1.5),
             opacity=0.90,
         ),
         customdata=REGION_KEYS,
@@ -507,13 +544,13 @@ def map_tab_fragment(lang):
         height=400, margin=dict(l=0, r=0, t=0, b=0),
         paper_bgcolor="rgba(0,0,0,0)",
         geo=dict(
-            showland=True, landcolor="#e8dcc8",
-            showocean=True, oceancolor="#c8d4d8",
-            showlakes=True, lakecolor="#b8ccd0",
-            showcoastlines=True, coastlinecolor="#a09080",
+            showland=True, landcolor="#ece6d6",
+            showocean=True, oceancolor="#d3e5ea",
+            showlakes=True, lakecolor="#c2dde4",
+            showcoastlines=True, coastlinecolor="#8fa8a3",
             coastlinewidth=0.8,
             showframe=False,
-            showcountries=True, countrycolor="#c8b898",
+            showcountries=True, countrycolor="#d8cdb2",
             countrywidth=0.5,
             projection_type="natural earth",
             bgcolor="rgba(0,0,0,0)",
@@ -589,14 +626,14 @@ def map_tab_fragment(lang):
                 ("Root Thickness hv (m)",            f"{hvr[0]}–{hvr[1]}", f"{hvd}"),
                 ("Typical Crop", "—", cr),
             ]
-        TH = 'style="background:#2d2a24;color:#e8d8b8;font-weight:600;padding:7px 12px;text-align:left;font-size:0.75rem;letter-spacing:0.3px;"'
-        TD = 'style="padding:7px 12px;color:#3d3530;border-bottom:1px solid #ede5d8;"'
-        TD_ALT = 'style="padding:7px 12px;color:#3d3530;border-bottom:1px solid #ede5d8;background:#f5f0e8;"'
-        TD_B = 'style="padding:7px 12px;color:#3d3530;border-bottom:1px solid #ede5d8;"'
+        TH = 'style="background:#0f4a5a;color:#cfeef4;font-weight:600;padding:7px 12px;text-align:left;font-size:0.75rem;letter-spacing:0.3px;"'
+        TD = 'style="padding:7px 12px;color:#31454e;border-bottom:1px solid #ecf2f4;"'
+        TD_ALT = 'style="padding:7px 12px;color:#31454e;border-bottom:1px solid #ecf2f4;background:#f6fafb;"'
+        TD_B = 'style="padding:7px 12px;color:#31454e;border-bottom:1px solid #ecf2f4;"'
         rows_html = "".join(
             f"<tr><td {TD if i%2==0 else TD_ALT}>{p}</td>"
             f"<td {TD if i%2==0 else TD_ALT}>{rng}</td>"
-            f"<td {TD_B if i%2==0 else TD_ALT}><b style='color:#b87840'>{dv}</b></td></tr>"
+            f"<td {TD_B if i%2==0 else TD_ALT}><b style='color:#0f6b7d'>{dv}</b></td></tr>"
             for i, (p, rng, dv) in enumerate(rows)
         )
         st.markdown(f"""
@@ -662,7 +699,7 @@ with main_tab2:
         """, unsafe_allow_html=True)
 
         # 横向对比图
-        BLUE = "#5c8a96"; GREEN = "#5c8a96"; ORANGE = "#b87840"
+        BLUE = "#12808f"; GREEN = "#8fb8c2"; ORANGE = "#c98a3b"
         fig_bar = go.Figure()
         bar_items = [
             ("dc",    dc,    ORANGE, f"dc = {dc:.2f} m"),
@@ -681,7 +718,7 @@ with main_tab2:
         x_ax = "深度 (m)" if lang == "cn" else "Depth (m)"
         fig_bar.update_layout(
             height=155, margin=dict(l=10, r=20, t=8, b=8),
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#faf7f0", barmode="overlay",
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#ffffff", barmode="overlay",
             xaxis=dict(title=x_ax, showgrid=False, zeroline=False, tickfont=dict(size=11)),
             yaxis=dict(showgrid=False, tickfont=dict(size=11)),
         )
@@ -704,7 +741,7 @@ with main_tab2:
     st.markdown("---")
     st.markdown(f'<div class="section-header">📈 {t["sens_header"][lang]}</div>', unsafe_allow_html=True)
 
-    LCOL = "#5c8a96"; GCOL = "#a0c0c8"; RCOL = "#a8212e"
+    LCOL = "#12808f"; GCOL = "#9cc3cd"; RCOL = "#b3462e"
 
     def sens_chart(x_arr, y_opt, y_unc, x_label, dc_val, cur_x, cur_y):
         fig = go.Figure()
@@ -719,7 +756,7 @@ with main_tab2:
         fig.add_trace(go.Scatter(
             x=x_arr, y=y_opt, name="D*",
             line=dict(color=LCOL, width=2.5),
-            fill="tozeroy", fillcolor="rgba(92,138,150,0.08)",
+            fill="tozeroy", fillcolor="rgba(18,128,143,0.08)",
             hovertemplate=f"{x_label}: %{{x:.1f}}<br>D*=%{{y:.2f}} m<extra></extra>",
         ))
         if cur_y is not None:
@@ -730,10 +767,10 @@ with main_tab2:
             ))
         fig.update_layout(
             height=320, margin=dict(l=10, r=20, t=18, b=8),
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#faf7f0",
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#ffffff",
             legend=dict(orientation="h", y=1.05, x=1, xanchor="right", font=dict(size=11)),
-            xaxis=dict(title=x_label, showgrid=True, gridcolor="#ede5d8", tickfont=dict(size=11)),
-            yaxis=dict(title="D* (m)", showgrid=True, gridcolor="#ede5d8", tickfont=dict(size=11)),
+            xaxis=dict(title=x_label, showgrid=True, gridcolor="#e7eef1", tickfont=dict(size=11)),
+            yaxis=dict(title="D* (m)", showgrid=True, gridcolor="#e7eef1", tickfont=dict(size=11)),
             hovermode="x unified",
         )
         return fig
@@ -773,8 +810,8 @@ with main_tab2:
 # ====== 页脚访问计数 ======
 st.markdown("---")
 st.markdown("""
-<div style="text-align:center; padding:0.6rem 0 1rem; color:#7a6a58; font-size:0.82rem;">
-  <img src="https://visitor-badge.laobi.icu/badge?page_id=yunluhaha.optimal-groundwater&left_color=%232d2a24&right_color=%239abfc8&left_text=%E8%AE%BF%E5%AE%A2%E6%95%B0"
+<div style="text-align:center; padding:0.6rem 0 1rem; color:#5b7681; font-size:0.82rem;">
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=yunluhaha.optimal-groundwater&left_color=%230c2f3a&right_color=%2312808f&left_text=%E8%AE%BF%E5%AE%A2%E6%95%B0"
        alt="访客数" style="height:22px; vertical-align:middle; border-radius:4px;"/>
 </div>
 """, unsafe_allow_html=True)
